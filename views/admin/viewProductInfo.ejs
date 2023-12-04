@@ -1,0 +1,180 @@
+<%- include('../layouts/adminSidebar') %>
+    <main class="main-wrap">
+        <%- include('../layouts/adminHeader') %>
+            <section class="content-main">
+
+                <div class="row">
+
+                    <div class="col">
+                        <div class="content-header d-flex">
+                            <h2 class="content-title">Product Details - <%= products.name %>
+                            </h2>
+                            <div>
+                                <a href="/admin/editProduct?id=<%= products._id.toString() %>"
+                                    class="btn btn-md rounded font-sm hover-up" style="width: 120px;">Edit Product</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Media</h5>
+                        </div>
+                        <div class="card-body d-flex">
+
+
+                            <div class="m-4">
+                                <label for="image1">Image 1:</label>
+                                <img id="imgView<%= 0 %>" src="/productImages/<%= products.productImages[0] %>"
+                                    alt=""><br>
+
+                            </div>
+                            <br>
+                            <div class="m-4 ">
+                                <label for="image2">Image 2:</label>
+                                <img id="imgView<%= 1 %>" src="/productImages/<%= products.productImages[1] %>" alt="">
+
+                            </div>
+                            <br>
+                            <div class="m-4 ">
+                                <label for="image3">Image 3:</label>
+                                <img id="imgView<%= 3 %>" src="/productImages/<%= products.productImages[2] %>" alt="">
+                            </div>
+                            <br>
+                            <div class="m-4 ">
+                                <label for="image4">Image 4:</label>
+                                <img id="imgView<%= 3 %>" src="/productImages/<%= products.productImages[3] %>" alt="">
+                            </div>
+                            <br>
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="col-lg-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="my-2">Product Info</h5>
+                                <div class="mb-4">
+                                    <h6 class="mt-3">Product title</h6>
+                                    <p>
+                                        <%= products.name %>
+                                    </p>
+                                </div>
+
+                                <div class="row gx-3">
+                                    <div class="mb-3">
+                                        <h6 class="mt-3">Quantity</h6>
+                                        <p>
+                                            <%= products.quantity %>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="mb-2">
+                                    <h6 class="mt-3">Product Color</h6>
+                                    <p>
+                                        <%= products.productColor %>
+                                    </p>
+                                </div>
+                            </div>
+                        </div> <!-- card end// -->
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="my-2">Product Specifications</h5>
+
+                                <div class="row gx-3">
+                                    <div class="mb-3 col-lg-6">
+                                        <h6 class="mt-3">Handle</h6>
+                                        <p>
+                                            <%= products.handle %>
+                                        </p>
+                                    </div>
+
+                                    <div class="mb-3 col-lg-6">
+                                        <h6 class="mt-3">Oppening mechanism</h6>
+                                        <p>
+                                            <%= products.mechanism %>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="row gx-3">
+                                    <div class="mb-3 col-lg-6">
+                                        <h6 class="mt-3">Blade style</h6>
+                                        <p>
+                                            <%= products.bladeStyle %>
+                                        </p>
+                                    </div>
+
+                                    <div class="mb-3 col-lg-6">
+                                        <h6 class="mt-3">Blade steel</h6>
+                                        <p>
+                                            <%= products.bladeSteel %>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="row gx-3">
+                                    <div class="mb-3 col-lg-6">
+                                        <h6 class="mt-3">Weight</h6>
+                                        <p>
+                                            <%= products.weight %>
+                                        </p>
+                                    </div>
+
+                                    <div class="mb-3 col-lg-6">
+                                        <h6 class="mt-3">Length</h6>
+                                        <p>
+                                            <%= products.bladeLength %>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h6 class="mt-3">description</h6>
+                                    <p>
+                                        <%= products.description %>
+                                    </p>
+                                </div>
+                            </div>
+                        </div> <!-- card end// -->
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="card mb-4">
+                            <div class="card-body mb-4">
+                                <div class="mb-4">
+                                    <h6 class="mt-3">Price</h6>
+                                    <p>
+                                        <%= products.price %>
+                                    </p>
+                                </div>
+                                <div class="mb-4">
+                                    <h6 class="mt-3">Discount Price</h6>
+                                    <p>
+                                        <%= products.discountPrice %>
+                                    </p>
+                                </div>
+
+                                <hr>
+                                <div class="mb-4">
+                                    <h6 class="mt-3">Category</h6>
+                                    <p>
+                                        <%= products.category %>
+                                    </p>
+                                </div>
+                            </div>
+                        </div> <!-- card end// -->
+                    </div>
+                </div>
+
+
+            </section>
+
+            <%- include('../layouts/adminFooter') %>

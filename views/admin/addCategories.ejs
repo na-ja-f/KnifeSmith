@@ -1,0 +1,70 @@
+<%- include('../layouts/adminSidebar') %>
+
+    <main class="main-wrap">
+        <%- include('../layouts/adminHeader') %>
+            <section class="content-main">
+                <div class="content-header">
+                    <h2 class="content-title">Add category</h2>
+                </div>
+                <% if (typeof message !=='undefined' ) { %>
+                    <p style="color: rgb(255, 0, 0);">
+                        <%= message %>
+                    </p>
+                    <% } %>
+                        <div class="col-md-6">
+                            <form id="form" action="" method="post" enctype="multipart/form-data">
+                                <div class="mb-4">
+                                    <label for="product_name" class="form-label">Name</label>
+                                    <input type="text" placeholder="category name" name="name" required
+                                        class="form-control" id="product_name" />
+                                    <div class="error-message" style="color: red;" id="name-error"></div>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Description</label>
+                                    <textarea placeholder="Type here" name="description" required
+                                        class="form-control"></textarea>
+                                    <div class="error-message" style="color: red;" id="description-error"></div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="product_name" class="form-label">Name</label>
+                                    <input type="file" name="image" required class="form-control" id="product_name" />
+                                    <div class="error-message" style="color: red;" id="image-error"></div>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Create category</button>
+                                </div>
+                            </form>
+                        </div>
+            </section>
+
+            <script>
+                document.getElementById('form').addEventListener('submit', function (event) {
+                    const name = document.getElementById("name").value;
+                    const nameError = document.getElementById("name-error");
+                    const description = document.getElementById("description").value;
+                    const descriptionError = document.getElementById("description-error");
+                    const image = document.getElementById("image").value;
+                    const imageError = document.getElementById("image-error");
+
+                    nameError.textContent = "";
+
+                    let valid = true;
+
+                    if (name.trim() === '') {
+                        nameError.textContent = "Name is required.";
+                        valid = false;
+                    } else if (description.trim() === '') {
+                        descriptionError.textContent = "description is required.";
+                        valid = false;
+                    } else if (image.trim() === '') {
+                        imageError.textContent = "image is required.";
+                        valid = false;
+                    }
+
+
+                    if (!valid) {
+                        event.preventDefault(); // Prevent form submission if there are validation errors
+                    }
+                });
+            </script>
+            <%- include('../layouts/adminFooter') %>

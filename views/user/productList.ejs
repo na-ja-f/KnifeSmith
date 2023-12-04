@@ -1,0 +1,289 @@
+<%- include('../layouts/header') %>
+    <main class="main">
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row flex-row-reverse">
+                    <div class="col-lg-9">
+                        <div class="shop-product-fillter">
+                            <div class="totall-product">
+                                <p> We found <strong class="text-brand">
+                                        <%= totalProducts %>
+                                    </strong> items for you!</p>
+                            </div>
+                            <div class="sort-by-product-area">
+                                <div class="sort-by-cover">
+                                    <div class="sort-by-product-wrap">
+                                        <div class="sort-by">
+                                            <span><i class="fi-rs-apps-sort"></i>Sort by:</span>
+                                        </div>
+                                        <div class="sort-by-dropdown-wrap">
+                                            <span> Featured <i class="fi-rs-angle-small-down"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="sort-by-dropdown">
+                                        <ul>
+                                            <li><a href="/productList">Featured</a></li>
+                                            <li><a href="/productList?sort=1">Price: Low to High</a></li>
+                                            <li><a href="/productList?sort=-1">Price: High to Low</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row product-grid-3">
+                            <% for (let i=0; i < productData.length; i++) { %>
+                                <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                                    <div class="product-cart-wrap mb-30">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="/productPage?id=<%= productData[i]._id %>">
+                                                    <img class="default-img"
+                                                        src="/productImages/<%= productData[i].productImages[0] %>"
+                                                        alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="/addTowishlist?id=<%= productData[i]._id %>" tabindex="0"><i class="fi-rs-heart"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="#">
+                                                    <%= productData[i].category %>
+                                                </a>
+                                            </div>
+                                            <h2><a href="/productPage?id=<%= productData[i]._id %>">
+                                                    <%= productData[i].name %>
+                                                </a></h2>
+                                            <div class="product-price">
+                                                <span>
+                                                    <%= productData[i].discountPrice %>
+                                                </span>
+                                                <span class="old-price">
+                                                    <%= productData[i].price %>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+
+                        </div>
+                        <!--pagination-->
+                        <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-start">
+                                    <% for (let page=1; page <=totalPages; page++) { %>
+                                        <li class="page-item <%= page === currentPage ? 'active' : '' %>">
+                                            <a class="page-link" href="/productList?page=<%= page %>">
+                                                <%= page %>
+                                            </a>
+                                        </li>
+                                        <% } %>
+                                </ul>
+                            </nav>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-3 primary-sidebar sticky-sidebar">
+                        <div class="sidebar-widget price_range range mb-30">
+                            <div class="widget-header position-relative mb-20 pb-10">
+                                <h5 class="widget-title mb-10">Fillters</h5>
+                                <div class="bt-1 border-color-1"></div>
+                            </div>
+                            <form action="" method="post">
+                                <div class="col-md-3">
+                                    <h5>category</h5>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="mb-4">
+                                            <% for (let i=0; i < categoryData.length; i++) { %>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="category" id="category"
+                                                        value="<%= categoryData[i].category %>" type="checkbox">
+                                                    <span class="form-check-label">
+                                                        <%= categoryData[i].category %>
+                                                    </span>
+                                                </label>
+                                                <% } %>
+                                        </div>
+                                    </div> <!-- col.// -->
+                                </div>
+                                <div class="col-md-3">
+                                    <h5>Color</h5>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="mb-4">
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="color" id="color" value="Black"
+                                                    type="checkbox">
+                                                <span class="form-check-label"> Black </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="color" id="color" value="Sand"
+                                                    type="checkbox">
+                                                <span class="form-check-label"> Sand </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="color" id="color" value="Orange"
+                                                    type="checkbox">
+                                                <span class="form-check-label"> Orange </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="color" id="color" value="Olive"
+                                                    type="checkbox">
+                                                <span class="form-check-label"> Olive </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="color" id="color" value="White"
+                                                    type="checkbox">
+                                                <span class="form-check-label"> White </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="color" id="color" value="Blue"
+                                                    type="checkbox">
+                                                <span class="form-check-label"> Blue </span>
+                                            </label>
+                                        </div>
+                                    </div> <!-- col.// -->
+                                </div>
+                                <hr class="mb-4 mt-0">
+                                <div class="col-md-12">
+                                    <h5>Opening mechanism</h5>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="mb-4">
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="mechanism" id="mechanism"
+                                                    value="manual" type="checkbox">
+                                                <span class="form-check-label"> manual </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="mechanism" id="mechanism"
+                                                    value="assisted" type="checkbox">
+                                                <span class="form-check-label"> assisted </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="mechanism" id="mechanism"
+                                                    value="automatic" type="checkbox">
+                                                <span class="form-check-label"> automatic </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="mechanism" id="mechanism"
+                                                    value="fixed" type="checkbox">
+                                                <span class="form-check-label"> fixed </span>
+                                            </label>
+                                        </div>
+                                    </div> <!-- col.// -->
+                                </div>
+                                <hr>
+                                <div class="col-md-12">
+                                    <h5>Blade style</h5>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-4">
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="style" id="style"
+                                                    value="clip-point" type="checkbox">
+                                                <span class="form-check-label"> clip-point </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="style" id="style"
+                                                    value="trailing-point" type="checkbox">
+                                                <span class="form-check-label"> trailing-point </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="style" id="style"
+                                                    value="drop point" type="checkbox">
+                                                <span class="form-check-label"> drop point </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="style" id="style"
+                                                    value="spear-point" type="checkbox">
+                                                <span class="form-check-label"> spear-point </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="style" id="style"
+                                                    value="straight back" type="checkbox">
+                                                <span class="form-check-label"> straight back </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="col-md-12">
+                                    <h5>Blade steel</h5>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-4">
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="steel" id="steel"
+                                                    value="stainless steel" type="checkbox">
+                                                <span class="form-check-label"> stainless steel </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="steel" id="steel"
+                                                    value="premium stainless steel" type="checkbox">
+                                                <span class="form-check-label"> premium stainless steel </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="steel" id="steel"
+                                                    value="super steel" type="checkbox">
+                                                <span class="form-check-label"> super steel </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="steel" id="steel"
+                                                    value="tool steel" type="checkbox">
+                                                <span class="form-check-label"> tool steel </span>
+                                            </label>
+                                        </div>
+                                    </div> <!-- col.// -->
+                                </div>
+                                <hr>
+                                <div class="col-md-3">
+                                    <h5>weight</h5>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="mb-4">
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="weight" id="weight" value="light"
+                                                    type="checkbox">
+                                                <span class="form-check-label"> light </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="weight" id="weight" value="medium"
+                                                    type="checkbox">
+                                                <span class="form-check-label"> medium </span>
+                                            </label>
+                                            <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                <input class="form-check-input" name="weight" id="weight" value="heavy"
+                                                    type="checkbox">
+                                                <span class="form-check-label"> heavy </span>
+                                            </label>
+                                        </div>
+                                    </div> <!-- col.// -->
+                                </div>
+                                <button type="submit">Filter</button>
+                                <a href="clearFilters" style="margin-left: 50px;">clear_all</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <%- include('../layouts/footer') %>

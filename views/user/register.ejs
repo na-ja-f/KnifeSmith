@@ -1,0 +1,131 @@
+<%- include('../layouts/header') %>
+
+    <main class="main">
+        <section class="pt-150 pb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 m-auto">
+                        <div class="row">
+                            <div class="col-lg-1"></div>
+                            <div class="col-lg-6">
+                                <div class="login_wrap widget-taber-content p-30 background-white border-radius-5">
+                                    <div class="padding_eight_all bg-white">
+                                        <div class="heading_s1">
+                                            <h3 class="mb-30">Create an Account</h3>
+                                            <% if (typeof message !=='undefined' ) { %>
+                                                <p style="color: rgb(255, 0, 0);">
+                                                    <%= message %>
+                                                </p>
+                                                <% } %>
+                                        </div>
+                                        <p class="mb-50 font-sm">
+                                            Your personal data will be used to support your experience throughout this
+                                            website, to manage access to your account, and for other purposes described
+                                            in our privacy policy
+                                        </p>
+                                        <form class="row login_form" action="/register" method="post" id="form">
+                                            <div class="col-md-12 form-group">
+                                                <input type="text" class="form-control" id="name" name="name"
+                                                    placeholder="Name">
+                                                <div class="error-message" style="color: red;" id="username-error">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <input type="email" class="form-control" id="email" name="email"
+                                                    placeholder="Email">
+                                                <div class="error-message" style="color: red;" id="email-error"></div>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <input type="text" class="form-control" id="mobile" name="mobile"
+                                                    placeholder="Mobile">
+                                                <div class="error-message" style="color: red;" id="mno-error"></div>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <input type="password" class="form-control" id="password"
+                                                    name="password" placeholder="Password">
+                                                <div class="error-message" style="color: red;" id="password-error">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 form-group mb-5">
+                                                <input type="password" class="form-control" id="password2"
+                                                    name="password2" placeholder="Confirm Password">
+                                                <div class="error-message" style="color: red;"
+                                                    id="confirmPassword-error"></div>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <button type="submit" class="primary-btn mt-15">Register</button>
+                                            </div>
+                                        </form>
+                                        <div class="text-muted text-center">Already have an account? <a
+                                                href="/login">Sign in now</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <script>
+        document.getElementById('form').addEventListener('submit', function (event) {
+            const username = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const mno = document.getElementById("mobile").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("password2").value;
+            const usernameError = document.getElementById("username-error");
+            const emailError = document.getElementById("email-error");
+            const mnoError = document.getElementById("mno-error");
+            const passwordError = document.getElementById("password-error");
+            const confirmPasswordError = document.getElementById("confirmPassword-error");
+
+            usernameError.textContent = "";
+            emailError.textContent = "";
+            mnoError.textContent = "";
+            passwordError.textContent = "";
+            confirmPasswordError.textContent = "";
+
+            let valid = true;
+
+            if (username.trim() === '') {
+                usernameError.textContent = "Name is required.";
+                valid = false;
+            }
+
+            if (email.trim() === '') {
+                emailError.textContent = "Email is required.";
+                valid = false;
+            }
+
+            if (mno.trim() === '') {
+                mnoError.textContent = "Mobile is required.";
+                valid = false;
+            }
+
+            if (password.trim() === '') {
+                passwordError.textContent = "Password is required.";
+                valid = false;
+            } else if (password.length < 6) {
+                passwordError.textContent = "Password should have at least 6 characters.";
+                valid = false;
+            }
+
+            if (confirmPassword.trim() === '') {
+                confirmPasswordError.textContent = "Confirm Password is required.";
+                valid = false;
+            } else if (password !== confirmPassword) {
+                confirmPasswordError.textContent = "Passwords do not match.";
+                valid = false;
+            }
+
+            if (!valid) {
+                event.preventDefault(); // Prevent form submission if there are validation errors
+            }
+        });
+    </script>
+
+
+    <%- include('../layouts/footer') %>

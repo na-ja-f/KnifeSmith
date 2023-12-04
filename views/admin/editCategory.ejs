@@ -1,0 +1,72 @@
+<%- include('../layouts/adminSidebar') %>
+
+    <main class="main-wrap">
+        <%- include('../layouts/adminHeader') %>
+            <section class="content-main row">
+                <div class="content-header">
+                    <h2 class="content-title">Edit category</h2>
+                </div>
+                <% if (typeof message !=='undefined' ) { %>
+                    <p style="color: rgb(255, 0, 0);">
+                        <%= message %>
+                    </p>
+                    <% } %>
+                        <div class="col-md-6">
+                            <form id="form" action="" method="post" enctype="multipart/form-data">
+                                <div class="mb-4">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" value="<%= catData.category %>" name="name" id="name" required
+                                        class="form-control" />
+                                    <div class="error-message" style="color: red;" id="name-error"></div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea name="description" id="description" required
+                                        class="form-control"><%= catData.description %></textarea>
+                                    <div class="error-message" style="color: red;" id="description-error"></div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="image" class="form-label">Image</label>
+                                    <input type="file" name="image" value="<%= catData.image %>" id="image"
+                                        class="form-control" />
+                                </div>
+                                <textarea name="id" hidden><%= catData._id %></textarea>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Update category</button>
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="col-md-6">
+                            <img src="/categoryImages/<%= catData.image %>" alt=""
+                                style="border: 5px solid rgb(55, 0, 207);" height="350px">
+                        </div>
+
+            </section>
+
+            <script>
+                document.getElementById('form').addEventListener('submit', function (event) {
+                    const name = document.getElementById("name").value;
+                    const nameError = document.getElementById("name-error");
+                    const description = document.getElementById("description").value;
+                    const descriptionError = document.getElementById("description-error");
+
+                    nameError.textContent = "";
+
+                    let valid = true;
+
+                    if (name.trim() === '') {
+                        nameError.textContent = "Name is required.";
+                        valid = false;
+                    } else if (description.trim() === '') {
+                        descriptionError.textContent = "description is required.";
+                        valid = false;
+                    }
+
+
+                    if (!valid) {
+                        event.preventDefault(); // Prevent form submission if there are validation errors
+                    }
+                });
+            </script>
+            <%- include('../layouts/adminFooter') %>

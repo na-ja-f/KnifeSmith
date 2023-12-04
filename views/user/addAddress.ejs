@@ -1,0 +1,123 @@
+<%- include('../layouts/header') %>
+
+
+    <div style="padding: 60px 10%;">
+
+        <!DOCTYPE html>
+        <html lang="en">
+
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Address Form</title>
+            <style>
+                .form-group {
+                    margin-bottom: 15px;
+                }
+
+                .error {
+                    color: red;
+                }
+            </style>
+        </head>
+
+        <body>
+
+            <form method="post" action="/addAddress" onsubmit="return validateForm()">
+                <div class="form-group">
+                    <input type="text" name="type" placeholder="Title for the address *">
+                    <small class="error" id="type-error"></small>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Your name *">
+                    <small class="error" id="name-error"></small>
+                </div>
+                <div class="form-group">
+                    <input type="tel" pattern="[0-9]{10}" name="phone" placeholder="Phone">
+                    <small class="error" id="phone-error"></small>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="houseName" placeholder="House name *">
+                    <small class="error" id="houseName-error"></small>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="street" placeholder="Street">
+                    <small class="error" id="street-error"></small>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="city" placeholder="City / Town *">
+                    <small class="error" id="city-error"></small>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="state" placeholder="State *">
+                    <small class="error" id="state-error"></small>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="pincode" placeholder="Pincode">
+                    <small class="error" id="pincode-error"></small>
+                </div>
+                <div class="d-grid">
+                    <input type="submit" class="btn btn-primary" value="Add address">
+                </div>
+            </form>
+
+
+
+        </body>
+
+        </html>
+
+
+
+    </div>
+
+    <script>
+        function validateForm() {
+            let isValid = true;
+
+            // Reset error messages and styles
+            const errorElements = document.querySelectorAll('.error');
+            errorElements.forEach(errorElement => {
+                errorElement.textContent = '';
+            });
+
+            // Validate each input field
+            const formInputs = document.querySelectorAll('form input');
+            formInputs.forEach(input => {
+                const fieldName = input.name;
+                const errorElement = document.getElementById(`${fieldName}-error`);
+
+                if (input.value.trim() === '') {
+                    errorElement.textContent = 'Please fill out this field.';
+                    isValid = false;
+                }
+
+                // Additional validation rules
+                switch (fieldName) {
+                    case 'phone':
+                        if (!/^[0-9]{10}$/.test(input.value.trim())) {
+                            errorElement.textContent = 'Invalid phone number (10 digits).';
+                            isValid = false;
+                        }
+                        break;
+
+                    case 'pincode':
+                        if (!/^[0-9]{6}$/.test(input.value.trim())) {
+                            errorElement.textContent = 'Invalid pincode (6 digits).';
+                            isValid = false;
+                        }
+                        break;
+
+                    // Add more validation rules as needed
+
+                    default:
+                        // No specific validation for other fields
+                        break;
+                }
+            });
+
+            return isValid;
+        }
+    </script>
+
+    <%- include('../layouts/footer') %>

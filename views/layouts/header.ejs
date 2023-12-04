@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>KnifeSmith</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/logo.png">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <!-- Include a required theme -->
+    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
+    <script src="sweetalert2/dist/sweetalert2.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Add this in the <head> section of your HTML -->
+        <!-- Include a required theme -->
+        <link  href="/path/to/cropper.css" rel="stylesheet">
+    <script src="/path/to/cropper.js"></script>
+    
+
+
+</head>
+
+<body style="background-color: rgb(255, 255, 255);">
+
+    <header class="header-area header-style-1 header-height-2" style="background-color: #d4cda9;">
+        <div class="header-middle header-middle-ptb-1 d-none d-lg-block" style="padding: 0;">
+            <div class="container" style="padding: 0">
+                <div class="header-wrap">
+
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom header-bottom-bg-color sticky-bar">
+            <div class="container">
+                <div class="header-wrap header-space-between position-relative">
+                    <div class="logo logo-width-1">
+                        <a href="/"><img src="assets/imgs/theme/logo.png" alt="logo"></a>
+                    </div>
+                    <div class="header-nav d-none d-lg-flex">
+                        <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
+                            <nav>
+                                <ul>
+                                    <li>
+                                        <a href="/">Home</a>
+                                    </li>
+                                    <li>
+                                        <a href="page-about.html">About</a>
+                                    </li>
+                                    <li>
+                                        <a href="/productList">Shop</a>
+                                    </li>
+                                    <li>
+                                        <a href="blog-category-grid.html">Blog</a>
+                                    </li>
+                                    <li>
+                                        <a href="page-contact.html">Contact</a>
+                                    </li>
+                                    <li>
+                                        <% if(session.userId){ %>
+                                                <a href="/profile">profile</a>
+                                                <% } %>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="header-action-right">
+                            <% if(session.userId){ %>
+                            <div class="header-action-2">
+                                <div class="header-action-icon-2">
+                                    <a href="/wishlist">
+                                        <img class="svgInject" alt="Evara" src="assets/imgs/theme/icons/icon-heart.svg">
+                                    </a>
+                                </div>
+                                <div class="header-action-icon-2">
+                                    <a class="mini-cart-icon" href="/cartPage">
+                                        <img alt="Evara" src="assets/imgs/theme/icons/icon-cart.svg">
+                                    </a>
+                                </div>
+                            </div>
+                            <% }else{ %>
+                            <a href="/login" style="font-size:larger;margin-right: 10px;">login</a>
+                            |
+                            <a href="/register" style="font-size:larger; margin-left: 10px;"> Signup</a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>

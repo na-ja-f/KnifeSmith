@@ -1,0 +1,83 @@
+<%- include('../layouts/header') %>
+    <section class="mt-50" style="margin-bottom: 200px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <% if (Wishlist.length> 0) { %>
+                            <table class="table shopping-summery text-center">
+
+                                <thead>
+                                    <tr class="main-heading">
+                                        <th scope="col" colspan="2">Product</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Action</th>
+                                        <th scope="col">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <% for(let i=0 ;i < Wishlist.length; i++){ %>
+                                        <tr>
+                                            <td class="image product-thumbnail"><img
+                                                    src="/productImages/<%= Wishlist[i].product.productImages[0] %>"
+                                                    alt="#"></td>
+                                            <td class="product-des product-name">
+                                                <h5 class="product-name"><a
+                                                        href="/productPage?id=<%= Wishlist[i].product._id %>">
+                                                        <%= Wishlist[i].product.name %>
+                                                    </a></h5>
+                                            </td>
+                                            <td class="price" data-title="Price"><span>
+                                                    <%= Wishlist[i].product.discountPrice %>
+                                                </span></td>
+                                            <td class="text-right" data-title="Cart">
+                                                <form action="/productPage?id=<%= Wishlist[i].product._id %>"
+                                                    method="post">
+                                                    <input type="hidden" value="<%= Wishlist[i].product._id %>">
+                                                    <div class="product-details-quantity">
+                                                        <input type="number" id="qty" name="qty" class="form-control"
+                                                            value="1" min="1" max="10" step="1" data-decimals="0"
+                                                            hidden>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-sm"><i
+                                                            class="fi-rs-shopping-bag mr-5"></i>Add to cart</button>
+                                                </form>
+                                            </td>
+                                            <td class="action" data-title="Remove"><a
+                                                    href="/removeFromWishlist?productId=<%= Wishlist[i].product._id %>"><i
+                                                        class="fi-rs-trash"></i></a></td>
+                                        </tr>
+                                        <% } %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <div
+                                                            style="display: flex; justify-content: center; margin-top: 30px; ">
+                                                            <h1 style="color: darkgoldenrod;">Wishlist is empty</h1>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <div
+                                                            style="display: flex; justify-content: center; margin-top: 30px; ">
+                                                            <a href="/productList" class="btn btn-primary"
+                                                                style="font-size:medium; padding: 5px;"><i
+                                                                    class="fa-solid fa-cart-shopping"></i>Continue
+                                                                Shoping</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <% } %>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </main>
+    <%- include('../layouts/footer') %>

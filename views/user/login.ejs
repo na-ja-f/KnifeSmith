@@ -1,0 +1,54 @@
+<%- include('../layouts/header') %>
+
+    <main class="main">
+
+        <section class="pt-150 pb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 m-auto">
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div
+                                    class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+                                    <div class="padding_eight_all bg-white">
+                                        <div class="heading_s1">
+                                            <h3 class="mb-30">Login</h3>
+                                            <% if (typeof message !=='undefined' ) { %>
+                                                <p style="color: rgb(255, 0, 0);">
+                                                    <%= message %>
+                                                </p>
+                                                <% } %>
+                                        </div>
+                                        <form class="row login_form" action="" method="post" id="contactForm">
+                                            <div class="col-md-12 form-group">
+                                                <input type="email" class="form-control" required id="email"
+                                                    name="email" placeholder="email" onfocus="this.placeholder = ''"
+                                                    onblur="this.placeholder = 'email'">
+                                            </div>
+                                            <div class="col-md-12 form-group mb-5">
+                                                <input type="password" class="form-control mb-5" required id="password"
+                                                    name="password" placeholder="Password"
+                                                    onfocus="this.placeholder = ''"
+                                                    onblur="this.placeholder = 'Password'">
+                                            </div>
+                                            <a href="/resetPage" style="margin-left: 250px; margin-bottom: 20px;">Forgot
+                                                Password</a>
+                                            <div class="col-md-12 form-group">
+                                                <button type="submit" value="submit" class="primary-btn">Log In</button>
+                                            </div>
+                                        </form>
+                                        <div style="margin-top: 30px;">
+                                            <h4>New to our website?</h4>
+                                            <a class="primary-btn" href="/register">Create an Account</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../layouts/footer') %>

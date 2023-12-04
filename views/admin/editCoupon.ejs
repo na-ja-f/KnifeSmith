@@ -1,0 +1,238 @@
+<%- include('../layouts/adminSidebar') %>
+    <main class="main-wrap">
+
+        <%- include('../layouts/adminHeader') %>
+
+            <form action="" method="post" id="coupon-form" onsubmit="return couponValidateForm()">
+                <section class="content-main">
+                    <div class="row">
+                        <div class="col-9">
+
+                            <div class="content-header">
+                                <h2 class="content-title">Edit Coupon</h2>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mb-4">
+                            <a href="/admin/couponList"><button
+                                    class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to
+                                    draft</button></a>
+                            <input type="submit" value=" Edit" class="btn btn-md rounded font-sm hover-up">
+                        </div>
+                        <div class="col-lg-12">
+
+                            <input type="hidden" name="couponId" value="<%= coupon._id %>" id="">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="mb-4">
+                                        <label for="category_name" class="form-label">Coupon code</label>
+                                        <input type="text" name="couponCode" placeholder="Type here"
+                                            value="<%= coupon.code %>" class="form-control" id="coupon_code">
+                                        <div class="error-message" style="color: red;" id="code-error"></div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="category_name" class="form-label">Discount</label>
+                                        <input type="number" name="discount" placeholder="Type here"
+                                            value="<%= coupon.discount %>" class="form-control" id="discount">
+                                        <div class="error-message" style="color: red;" id="discount-error"></div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <div class="form-group">
+                                            <label class="form-label mt-3" for="limit">Limit</label>
+                                            <input type="number" class="form-control" value="<%= coupon.limit %>"
+                                                id="limit" name="limit">
+                                            <div class="error-message" style="color: red;" id="limit-error"></div>
+
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div> <!-- card end// -->
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="mb-4">
+                                        <div class="form-group">
+                                            <label class="form-label mt-3" for="DiscountType">Discount Type</label>
+                                            <select class="form-control" id="DiscountType" name="DiscountType" required>
+                                                <option value="fixed" <%if(coupon.type=='fixed' ){%>selected<%}%>>Fixed
+                                                </option>
+                                                <option value="percentage" <%if(coupon.type=='percentage' ){%>selected
+                                                    <%}%>>Percentage
+                                                </option>
+                                            </select>
+                                            <div class="error-message" style="color: red;" id="discount_type-error">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-12 d-flex">
+
+                                        <div class="mb-4 col-6">
+                                            <div class="form-group">
+                                                <label class="form-label mt-3" for="limit">Min Cart Amount</label>
+                                                <input type="number" class="form-control"
+                                                    value="<%= coupon.minCartAmt %>" id="minCartAmt" name="minCartAmt">
+                                                <div class="error-message" style="color: red;" id="minCartAmt-error">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="mb-4 col-6">
+                                            <label class="form-label mt-3" for="limit">Max Redeemable Amount</label>
+                                            <input type="number" class="form-control"
+                                                value="<%= coupon.maxRedeemableAmt %>" id="maxRedeemableAmt"
+                                                name="maxRedeemableAmt">
+                                            <div class="error-message" style="color: red;" id="maxRedeemableAmt-error">
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- Category Div -->
+
+
+                                    <div class="mb-2">
+                                        <label for="category_name" class="form-label">Expiry</label>
+                                        <input type="date" name="expiry" value="<%= expiry  %>" placeholder="Type here"
+                                            class="form-control" id="expiryDate">
+                                        <div class="error-message" style="color: red;" id="expiryDate-error"></div>
+                                    </div>
+
+                                </div>
+                            </div> <!-- card end// -->
+                        </div>
+                    </div>
+
+
+
+
+
+                </section> <!-- content-main end// -->
+            </form>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const bannerTypeSelect = document.getElementById('bannerType');
+                    const categoryDiv = document.getElementById('categoryDiv');
+                    const productDiv = document.getElementById('productDiv');
+
+                    bannerTypeSelect.addEventListener('change', function () {
+                        const selectedValue = bannerTypeSelect.value;
+
+                        // Hide both divs by default
+                        categoryDiv.style.display = 'none';
+                        productDiv.style.display = 'none';
+
+                        // Show the appropriate div based on the selected value
+                        if (selectedValue === 'Category Banner') {
+                            categoryDiv.style.display = 'block';
+                        } else {
+                            productDiv.style.display = 'block';
+                        }
+                    });
+                });
+            </script>
+            <script>
+                function couponValidateForm() {
+                    let isValid = true;
+
+                    // Reset error messages
+                    const errorMessages = document.querySelectorAll('.error-message');
+                    errorMessages.forEach(function (errorMessage) {
+                        errorMessage.textContent = '';
+                    });
+
+                    // Validation for couponCode
+                    const couponCode = document.getElementById('coupon_code').value.trim();
+                    if (!couponCode) {
+                        isValid = false;
+                        document.getElementById('code-error').textContent = 'Coupon code is required.';
+                    }
+
+                    // Validation for discount
+                    const discount = document.getElementById('discount').value.trim();
+                    if (!discount) {
+                        isValid = false;
+                        document.getElementById('discount-error').textContent = 'Discount is required.';
+                    } else if (parseFloat(discount) < 0) {
+                        isValid = false;
+                        document.getElementById('discount-error').textContent = 'Discount cannot be negative.';
+                    }
+
+                    // Validation for limit
+                    const limit = document.getElementById('limit').value.trim();
+                    if (!limit) {
+                        isValid = false;
+                        document.getElementById('limit-error').textContent = 'Limit is required.';
+                    } else if (parseFloat(limit) < 0) {
+                        isValid = false;
+                        document.getElementById('limit-error').textContent = 'Limit cannot be negative.';
+                    }
+
+                    // Validation for minCartAmt
+                    const minCartAmt = document.getElementById('minCartAmt').value.trim();
+                    if (!minCartAmt) {
+                        isValid = false;
+                        document.getElementById('minCartAmt-error').textContent = 'Min Cart Amount is required.';
+                    } else if (parseFloat(minCartAmt) < 0) {
+                        isValid = false;
+                        document.getElementById('minCartAmt-error').textContent = 'Min Cart Amount cannot be negative.';
+                    }
+
+                    // Validation for maxRedeemableAmt
+                    const maxRedeemableAmt = document.getElementById('maxRedeemableAmt').value.trim();
+                    if (!maxRedeemableAmt) {
+                        isValid = false;
+                        document.getElementById('maxRedeemableAmt-error').textContent = 'Max Redeemable Amount is required.';
+                    } else if (parseFloat(maxRedeemableAmt) < 0) {
+                        isValid = false;
+                        document.getElementById('maxRedeemableAmt-error').textContent = 'Max Redeemable Amount cannot be negative.';
+                    }
+
+                    // Validation for expiryDate
+                    const expiryDate = document.getElementById('expiryDate').value.trim();
+                    if (!expiryDate) {
+                        isValid = false;
+                        document.getElementById('expiryDate-error').textContent = 'Expiry date is required.';
+                    }
+
+                    // Prevent form submission if validation fails
+                    if (!isValid) {
+                        event.preventDefault(); // This line prevents the form from being submitted
+                    }
+
+                    return isValid;
+                }
+            </script>
+
+            <script>
+                const imagePreview = document.getElementById('image-preview');
+                const categoryImageInput = document.getElementById('banner_image');
+
+                categoryImageInput.addEventListener('change', function () {
+                    if (this.files && this.files[0]) {
+                        const reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            imagePreview.src = e.target.result;
+                        };
+
+                        reader.readAsDataURL(this.files[0]);
+                    } else {
+                        imagePreview.src = "../../Public/adminAssets/imgs/theme/upload.svg";
+                    }
+                });
+
+            </script>
+
+
+
+            <%- include('../layouts/adminFooter.ejs') %>

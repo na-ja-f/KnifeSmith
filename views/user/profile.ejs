@@ -1,0 +1,260 @@
+<%- include('../layouts/header') %>
+
+    <main class="main">
+        <section class="pt-150 pb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 m-auto">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="dashboard-menu">
+                                    <ul class="nav flex-column" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab"
+                                                href="#dashboard" role="tab" aria-controls="dashboard"
+                                                aria-selected="false">Dashboard</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab"
+                                                href="#account-detail" role="tab" aria-controls="account-detail"
+                                                aria-selected="true">Account details</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders"
+                                                role="tab" aria-controls="orders" aria-selected="false">Orders</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="track-orders-tab" href="/wallet">Wallet</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="track-orders-tab" href="/couponPage">Coupon</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="address-tab" data-bs-toggle="tab" href="#address"
+                                                role="tab" aria-controls="address" aria-selected="true">My Address</a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/logout" style="color: red;"><i
+                                                    class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="tab-content dashboard-content">
+                                    <div class="tab-pane fade active show" id="dashboard" role="tabpanel"
+                                        aria-labelledby="dashboard-tab">
+                                        <h1>
+                                            <%=userData[0].name %>
+                                        </h1>
+                                        <p> welcome to the dashboard </p>
+                                    </div>
+                                    <div class="tab-pane fade" id="account-detail" role="tabpanel"
+                                        aria-labelledby="account-detail-tab">
+                                        <section style="background-color: #eee;">
+                                            <div class="container py-5">
+
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <div class="card mb-4">
+                                                            <div class="card-body text-center">
+                                                                <img src="/assets-admin/<%=userData[0].image %>"
+                                                                    alt="avatar" class="rounded-circle img-fluid"
+                                                                    style="width: 150px;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <div class="card mb-4">
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-sm-3">
+                                                                        <p class="mb-0">Full Name</p>
+                                                                    </div>
+                                                                    <div class="col-sm-9">
+                                                                        <p>
+                                                                            <%= userData[0].name %>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+                                                                <div class="row">
+                                                                    <div class="col-sm-3">
+                                                                        <p class="mb-0">email</p>
+                                                                    </div>
+                                                                    <div class="col-sm-9">
+                                                                        <p class=" mb-0">
+                                                                            <%= userData[0].email %>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+                                                                <div class="row">
+                                                                    <div class="col-sm-3">
+                                                                        <p class="mb-0">Mobile</p>
+                                                                    </div>
+                                                                    <div class="col-sm-9">
+                                                                        <p class=" mb-0">
+                                                                            <%= userData[0].mobile %>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Your Orders</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th class="align-middle" scope="col">Date</th>
+                                                                <th class="align-middle" scope="col">Total</th>
+                                                                <th style="width: 150px;" class="align-middle"
+                                                                    scope="col">Order Status</th>
+                                                                <th class="align-middle" scope="col">Payment Method</th>
+                                                                <th class="align-middle" scope="col">View Details</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <% orderData.forEach(function(order) { %>
+
+                                                                <tr>
+                                                                    <td>
+                                                                        <%= order.orderDate.toDateString() %>
+                                                                    </td>
+                                                                    <td>
+                                                                        ₹ <%= order.totalAmount %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <% if (order.status==='Pending' ) { %>
+                                                                            <span class="text-warning">
+                                                                                <%= order.status %>
+                                                                            </span>
+                                                                            <% } else if
+                                                                                (order.status==='Order Confirmed' ) { %>
+                                                                                <span class="text-warning">
+                                                                                    <%= order.status %>
+                                                                                </span>
+                                                                                <% } else if (order.status==='Shipped' )
+                                                                                    { %>
+                                                                                    <span class="text-dark">
+                                                                                        <%= order.status %>
+                                                                                    </span>
+                                                                                    <% } else if
+                                                                                        (order.status==='Out For Delivery'
+                                                                                        ) { %>
+                                                                                        <span class="text-dark">
+                                                                                            <%= order.status %>
+                                                                                        </span>
+                                                                                        <% } else if
+                                                                                            (order.status==='Delivered'
+                                                                                            ) { %>
+                                                                                            <span class="text-success">
+                                                                                                <%= order.status %>
+                                                                                            </span>
+                                                                                            <% } else { %>
+                                                                                                <span
+                                                                                                    class="text-danger">
+                                                                                                    <%= order.status %>
+                                                                                                </span>
+                                                                                                <% } %>
+
+
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <i
+                                                                            class="material-icons md-payment font-xxl text-muted mr-5"></i>
+                                                                        <%= order.paymentMethod %>
+                                                                    </td>
+
+
+                                                                    <td>
+                                                                        <a class="btn btn-outline-primary-2"
+                                                                            href="/userorderdetails?orderId=<%= order._id.toString() %>">Details</a>
+                                                                    </td>
+
+                                                                </tr>
+                                                                <% }); %>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="address" role="tabpanel"
+                                        aria-labelledby="address-tab">
+                                        <div class="row">
+                                            <div style="margin-bottom: 50px;">
+                                                <a href="/addAddress" class="btn btn-primary"><i
+                                                        class="material-icons md-plus"></i>Add address</a>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-8">
+                                                    <% addresses.forEach(address=> { %>
+                                                        <div class="card card-dashboard mb-5">
+                                                            <div class="card-body">
+
+                                                                <p>
+
+                                                                <h6><%- address.type.charAt(0).toUpperCase() +
+                                                                        address.type.slice(1) %><br></h6>
+
+
+                                                                <%- address.name %><br>
+                                                                    <%- address.houseName %><br>
+                                                                        <%- address.street %><br>
+                                                                            <%- address.city %>, <%- address.state %>
+                                                                                    <%- address.pinCode %><br>
+                                                                                        <%- address.phone %><br>
+                                                                                            <%- address.email %><br>
+                                                                                                <a
+                                                                                                    href="/editAddress?userId=<%= userData._id %>&addressId=<%= address._id %>">Edit
+                                                                                                    <i
+                                                                                                        class="icon-edit"></i></a>
+                                                                                                <a class="text-danger m-5"
+                                                                                                    href="/deleteAddress?userId=<%= userData._id %>&addressId=<%= address._id %>">Delete
+                                                                                                    <i
+                                                                                                        class="icon-close"></i></a>
+
+                                                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <% }); %>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+    </main>
+
+    <script>
+        function confirmDelete(userId) {
+            var result = confirm("Are you sure you want to delete this account?");
+
+            if (result) {
+                window.location.href = "/admin/deleteAccount?id=" + userId;
+            }
+        }
+
+    </script>
+
+    <%- include('../layouts/footer') %>

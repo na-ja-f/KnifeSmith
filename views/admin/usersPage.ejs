@@ -1,0 +1,107 @@
+<%- include('../layouts/adminSidebar') %>
+
+    <main class="main-wrap">
+        <%- include('../layouts/adminHeader') %>
+
+            <section class="content-main">
+                <div class="content-header">
+                    <h2 class="content-title">Users list</h2>
+                </div>
+                <div class="card mb-4">
+                    <header class="card-header">
+                        <div class="row gx-3">
+                            <div class="col-lg-4 col-md-6 me-auto">
+                                <input type="text" placeholder="Search..." class="form-control">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-6">
+                                <select class="form-select">
+                                    <option>Status</option>
+                                    <option>Active</option>
+                                    <option>Disabled</option>
+                                    <option>Show all</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-6">
+                                <select class="form-select">
+                                    <option>20 users total</option>
+                                </select>
+                            </div>
+                        </div>
+                    </header> <!-- card-header end// -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Email</th>
+                                        <th>Status</th>
+                                        <th>Registered</th>
+                                        <th class="text-end"> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if(userData.length> 0){
+                                        for(let i=0;i<userData.length;i++){ %>
+                                            <tr>
+                                                <td width="40%">
+                                                    <a href="#" class="itemside">
+                                                        <div class="left">
+                                                            <img src=<%=userData[i].image %> class="img-sm img-avatar"
+                                                            alt="" >
+                                                        </div>
+                                                        <div class="info pl-3">
+                                                            <h6 class="mb-0 title">
+                                                                <%= userData[i].name %>
+                                                            </h6>
+                                                        </div>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <%= userData[i].email %>
+                                                </td>
+                                                <td><span class="badge rounded-pill alert-success">
+                                                        <% if (userData[i].is_blocked==0) { %>
+                                                            Active
+                                                            <% } else { %>
+                                                                Blocked
+                                                                <% } %>
+                                                    </span></td>
+                                                <td>><%= userData[i].createdDate.toISOString().split('T')[0]; %>
+                                                </td>
+                                                <td class="text-end">
+                                                    <% if (userData[i].is_blocked) { %>
+                                                        <a href="/admin/unblockUser?id=<%= userData[i]._id %>"
+                                                            class="btn btn-sm btn-brand rounded font-sm mt-15"
+                                                            style="background-color: green;">Unblock</a>
+                                                        <% } else { %>
+                                                            <a href="/admin/blockUser?id=<%= userData[i]._id %>"
+                                                                class="btn btn-sm btn-brand rounded font-sm mt-15"
+                                                                style="background-color: red;">Block</a>
+                                                            <% } %>
+                                                </td>
+
+                                            </tr>
+                                            <% } } %>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <% for (let page=1; page <=totalPages; page++) { %>
+                                <li class="page-item <%= page === currentPage ? 'active' : '' %>">
+                                    <a class="page-link" href="/admin/usersPage?page=<%= page %>">
+                                        <%= page %>
+                                    </a>
+                                </li>
+                                <% } %>
+                        </ul>
+                    </nav>
+                </div>
+            </section>
+
+            <%- include('../layouts/adminFooter') %>

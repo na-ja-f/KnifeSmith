@@ -1,0 +1,261 @@
+<%- include('../layouts/adminSidebar') %>
+    <main class="main-wrap">
+        <%- include('../layouts/adminHeader') %>
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Orders List</h2>
+                    </div>
+
+                </div>
+                <div class="card mb-4">
+                    <header class="card-header">
+                        <div class="row align-items-center">
+
+                            <form action="" method="get">
+
+                                <div style="display: flex;  align-items: center;">
+                                    <input type="text" id="searchInput" class="form-control"
+                                        placeholder="Search for products...">
+                                    <div class="col-md-3 col-12 me-auto mb-md-0 mb-3" style="display: flex;">
+                                        <label for="status" class="form-control">Select Status:</label>
+                                        <select name="status" class="form-select" id="status">
+                                            <option value="" selected>All</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Order Confirmed">Order Confirmed</option>
+                                            <option value="Out For Delivery">Out For Delivery</option>
+                                            <option value="Delivered">Delivered</option>
+                                            <option value=">Return Requested">Return Requested</option>
+                                            <option value="Return Successfull">Return Successfull</option>
+                                            <option value="Cancelled">Cancelled</option>
+                                        </select>
+                                    </div>
+                                    <input type="submit" class="btn btn-sm font-sm rounded btn-brand" value="Filter">
+                                </div>
+                            </form>
+
+
+
+
+                        </div>
+                    </header>
+
+                    <div class="card-body">
+
+                        <table id="products" class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Order Id</th>
+                                    <th scope="col">Billing Name</th>
+                                    <th scope="col">Ordered Date</th>
+                                    <th scope="col">Delivery Date</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Payment Status</th>
+                                    <th scope="col">Payment Method</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <% orders.forEach((order)=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= order._id %>
+                                        </td>
+                                        <td>
+                                            <%= order.user.name %>
+                                        </td>
+                                        <td>
+                                            <%= new Date(order.orderDate).toLocaleDateString() %>
+                                        </td>
+                                        <td>
+                                            <%= new Date(order.deliveryDate).toLocaleDateString() %>
+                                        </td>
+                                        <td>
+                                            <%= order.totalAmount %>
+                                        </td>
+                                        <td>
+                                            <% if (order.status=='Pending' ) { %>
+                                                <span class="badge badge-pill badge-soft-warning">
+                                                    <%= order.status %>
+                                                </span>
+                                                <% } else if (order.status=='Order Confirmed' ) { %>
+                                                    <span class="badge badge-pill badge-soft-warning">
+                                                        <%= order.status %>
+                                                    </span>
+                                                    <% } else if (order.status=='Shipped' ) { %>
+                                                        <span class="badge badge-pill badge-soft-dark">
+                                                            <%= order.status %>
+                                                        </span>
+                                                        <% } else if (order.status=='Out For Delivery' ) { %>
+                                                            <span class="badge badge-pill badge-soft-dark">
+                                                                <%= order.status %>
+                                                            </span>
+                                                            <% } else if (order.status=='Delivered' ) { %>
+                                                                <span class="badge badge-pill badge-soft-success">
+                                                                    <%= order.status %>
+                                                                </span>
+                                                                <% } else if (order.status=='Return Successfull' ) { %>
+                                                                    <span class="badge badge-pill badge-soft-success">
+                                                                        <%= order.status %>
+                                                                    </span>
+                                                                    <% } else { %>
+                                                                        <span
+                                                                            class="badge badge-pill badge-soft-danger">
+                                                                            <%= order.status %>
+                                                                        </span>
+                                                                        <% } %>
+                                        </td>
+                                        <td>
+                                            <% if (order.paymentStatus=='Pending' ) { %>
+                                                <span class="badge badge-pill badge-soft-warning">
+                                                    <%= order.paymentStatus %>
+                                                </span>
+                                                <% } else if (order.paymentStatus=='Payment Successful' ) { %>
+                                                    <span class="badge badge-pill badge-soft-success">
+                                                        <%= order.paymentStatus %>
+                                                    </span>
+                                                    <% } else if (order.paymentStatus=='Refunded' ) { %>
+                                                        <span class="badge badge-pill badge-soft-primary">
+                                                            <%= order.paymentStatus %>
+                                                        </span>
+                                                        <% } else{ %>
+                                                            <span class="badge badge-pill badge-soft-danger">
+                                                                <%= order.paymentStatus %>
+                                                            </span>
+                                                            <% } %>
+                                        </td>
+
+                                        <td>
+                                            <%= order.paymentMethod %>
+                                        </td>
+
+                                        <td>
+                                            <a href="/admin/orderdetails?orderId=<%= order._id %>"
+                                                class="btn btn-secondary">Details</a>
+                                            <% if(order.status !=='Cancelled' && order.status !=='Return Successfull' )
+                                                {%>
+                                                <div class="dropdown">
+                                                    <a href="#" data-bs-toggle="dropdown"
+                                                        class="btn btn-light rounded btn-sm font-xs"> <i
+                                                            class="material-icons md-more_horiz"></i> </a>
+                                                    <div class="dropdown-menu">
+                                                        <h6 style="margin-left: 20px;" class="font-xs">Order Status</h6>
+                                                        <a class="dropdown-item font-xs"
+                                                            href="/admin/orderstatus?orderId=<%= order._id.toString()%>&status=Pending ">Pending</a>
+                                                        <a class="dropdown-item font-xs"
+                                                            href="/admin/orderstatus?orderId=<%= order._id.toString()%>&status=Order Confirmed ">Order
+                                                            Confirmed</a>
+                                                        <a class="dropdown-item font-xs"
+                                                            href="/admin/orderstatus?orderId=<%= order._id.toString()%>&status=Shipped">Shipped</a>
+                                                        <a class="dropdown-item  font-xs"
+                                                            href="/admin/orderstatus?orderId=<%= order._id.toString()%>&status=Out For Delivery ">Out
+                                                            For Delivery</a>
+                                                        <a class="dropdown-item  font-xs"
+                                                            href="/admin/orderstatus?orderId=<%= order._id.toString()%>&status=Delivered">Delivered</a>
+                                                        <a class="dropdown-item  text-danger  font-xs"
+                                                            href="/admin/cancelOrder?orderId=<%= order._id.toString()%>&status=Cancelled&orderList=true">Cancel
+                                                            Order</a>
+                                                    </div>
+                                                </div> <!-- dropdown //end -->
+                                                <% } %>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+
+
+                            </tbody>
+                        </table>
+
+                    </div> <!-- card-body end// -->
+                </div> <!-- card end// -->
+
+                <div class="pagination-area mt-30 mb-50" style="display: flex; justify-content: center;">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <% if (currentPage> 1) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<%= currentPage - 1 %>">
+                                        << /a>
+                                </li>
+                                <% } %>
+
+                                    <% for (let i=1; i <=totalPages; i++) { %>
+                                        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                            <a class="page-link" href="?page=<%= i %>">
+                                                <%= i %>
+                                            </a>
+                                        </li>
+                                        <% } %>
+
+                                            <% if (currentPage < totalPages) { %>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<%= currentPage + 1 %>">></a>
+                                                </li>
+                                                <% } %>
+
+
+                        </ul>
+                    </nav>
+                </div>
+            </section> <!-- content-main end// -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+            <script>
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    const searchInput = document.getElementById("searchInput");
+                    const table = document.getElementById("products");
+                    const rows = table.getElementsByTagName("tr");
+
+                    searchInput.addEventListener("keyup", function () {
+                        const searchText = searchInput.value.toLowerCase();
+
+                        for (let i = 1; i < rows.length; i++) {
+                            const rowData = rows[i].textContent.toLowerCase();
+                            if (rowData.includes(searchText)) {
+                                rows[i].style.display = "";
+                            } else {
+                                rows[i].style.display = "none";
+                            }
+                        }
+                    });
+                });
+
+
+
+
+                $(document).ready(function () {
+                    $('#products').DataTable({
+                        "paging": false,
+                    });
+                });
+
+                function updateProductList(categoryId) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/products",
+                        data: { categoryId: categoryId },
+                        success: function (data) {
+                            $("#product-list").html(data);
+                        },
+                        error: function (error) {
+                            console.error("Error:", error);
+                        }
+                    });
+                }
+
+                document.getElementById('category-filter').addEventListener('change', function () {
+                    const categoryId = this.value;
+                    updateProductList(categoryId);
+                });
+
+                $(document).ready(function () {
+                    updateProductList('');
+                });
+
+            </script>
+
+            <%- include('../layouts/adminFooter') %>

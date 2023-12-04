@@ -1,0 +1,501 @@
+<%- include('../Layouts/adminSidebar') %>
+
+    <main class="main-wrap">
+        <%- include('../Layouts/adminHeader') %>
+
+            <form action="" method="post" enctype="multipart/form-data" id="form">
+                <input type="text" name="id" value="<%= productData._id %>" hidden>
+                <section class="content-main">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="content-header">
+                                <h2 class="content-title">Edit Product</h2>
+                                <% if (typeof message !=='undefined' ) { %>
+                                    <p style="color: rgb(255, 0, 0);">
+                                        <%= message %>
+                                    </p>
+                                    <% } %>
+                                        <div>
+                                            <input type="submit" class="btn btn-md rounded font-sm " id="">
+                                            <!-- <button type="submit" id="submit" class="btn btn-md rounded font-sm ">Submit</button> -->
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <h6>1. General info</h6>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="mb-4">
+                                                <label class="form-label">Product title</label>
+                                                <input type="text" name="title" placeholder="Type here"
+                                                    class="form-control" value="<%= productData.name %>">
+                                                <div class="error-message" style="color: red;" id="title-error"></div>
+                                            </div>
+                                            <div class="mb-4">
+                                                <label class="form-label">Quantity</label>
+                                                <input type="text" name="quantity" placeholder="Type here"
+                                                    class="form-control" value="<%= productData.quantity %>">
+                                                <div class="error-message" style="color: red;" id="quantity-error">
+                                                </div>
+                                            </div>
+                                            <div class="mb-4">
+                                                <label class="form-label">Description</label>
+                                                <textarea name="description" placeholder="Type here"
+                                                    class="form-control"
+                                                    rows="4"><%= productData.description %>"</textarea>
+                                                <div class="error-message" style="color: red;" id="description-error">
+                                                </div>
+                                            </div>
+                                            <div class="mb-4">
+                                                <label class="form-label">Handle</label>
+                                                <input type="text" name="handle" placeholder="Type here"
+                                                    class="form-control" value="<%= productData.handle %>">
+                                                <div class="error-message" style="color: red;" id="handle-error"></div>
+                                            </div>
+                                            <div class="mb-4">
+                                                <label class="form-label">Length</label>
+                                                <input type="text" name="length" placeholder="Type here"
+                                                    class="form-control" value="<%= productData.bladeLength %>">
+                                                <div class="error-message" style="color: red;" id="length-error"></div>
+                                            </div>
+                                        </div> <!-- col.// -->
+                                    </div> <!-- row.// -->
+                                    <hr class="mb-4 mt-0">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <h6>2. Pricing</h6>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="mb-4">
+                                                <label class="form-label">Price</label>
+                                                <input type="text" name="price" placeholder="00.0" class="form-control"
+                                                    value="<%= productData.price %>">
+                                                <div class="error-message" style="color: red;" id="price-error"></div>
+                                            </div>
+                                            <div class="mb-4">
+                                                <label class="form-label">Discounted Price</label>
+                                                <input type="text" name="discountPrice" placeholder="00.0"
+                                                    class="form-control" value="<%= productData.discountPrice %>">
+                                                <div class="error-message" style="color: red;" id="discountPrice-error">
+                                                </div>
+                                            </div>
+                                        </div> <!-- col.// -->
+                                    </div> <!-- row.// -->
+                                    <hr class="mb-4 mt-0">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <h6>3. Category</h6>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="mb-4">
+                                                <% if(Category) if(Category.length>0){
+                                                    for(let i=0;i<Category.length;i++){ %>
+                                                        <label class="mb-2 form-check form-check-inline"
+                                                            style="width: 45%;">
+                                                            <input class="form-check-input" name="category"
+                                                                id="category" type="radio"
+                                                                value="<%= Category[i].category %>"
+                                                                <%if(productData.category==Category[i].category){%>
+                                                            checked <%}%>>
+                                                                <span class="form-check-label">
+                                                                    <%= Category[i].category %>
+                                                                </span>
+                                                        </label>
+                                                        <% } }%>
+                                            </div>
+                                        </div> <!-- col.// -->
+                                    </div> <!-- row.// -->
+                                    <hr class="mb-4 mt-0">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <h6>4. Color</h6>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="mb-4">
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="color" id="color"
+                                                        value="Black" type="radio"
+                                                        <%if(productData.productColor=='Black' ){%> checked <%}%>>
+                                                        <span class="form-check-label"> Black </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="color" id="color" value="Sand"
+                                                        type="radio" <%if(productData.productColor=='Sand' ){%> checked
+                                                    <%}%>>
+                                                        <span class="form-check-label"> Sand </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="color" id="color"
+                                                        value="Orange" type="radio"
+                                                        <%if(productData.productColor=='Orange' ){%> checked <%}%>>
+                                                        <span class="form-check-label"> Orange </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="color" id="color"
+                                                        value="Olive" type="radio"
+                                                        <%if(productData.productColor=='Olive' ){%> checked <%}%>>
+                                                        <span class="form-check-label"> Olive </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="color" id="color"
+                                                        value="White" type="radio"
+                                                        <%if(productData.productColor=='White' ){%> checked <%}%>>
+                                                        <span class="form-check-label"> White </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="color" id="color" value="Blue"
+                                                        type="radio" <%if(productData.productColor=='Blue' ){%> checked
+                                                    <%}%>>
+                                                        <span class="form-check-label"> Blue </span>
+                                                </label>
+                                            </div>
+                                        </div> <!-- col.// -->
+                                    </div> <!-- row.// -->
+                                    <hr class="mb-4 mt-0">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <h6>5. Opening mechanism</h6>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="mb-4">
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="mechanism" id="mechanism"
+                                                        value="manual" type="radio" <%if(productData.mechanism=='manual'
+                                                        ){%> checked <%}%>>
+                                                        <span class="form-check-label"> manual </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="mechanism" id="mechanism"
+                                                        value="assisted" type="radio"
+                                                        <%if(productData.mechanism=='assisted' ){%> checked <%}%>>
+                                                        <span class="form-check-label"> assisted </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="mechanism" id="mechanism"
+                                                        value="automatic" type="radio"
+                                                        <%if(productData.mechanism=='automatic' ){%> checked <%}%>>
+                                                        <span class="form-check-label"> automatic </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="mechanism" id="mechanism"
+                                                        value="fixed" type="radio" <%if(productData.mechanism=='fixed'
+                                                        ){%> checked <%}%>>
+                                                        <span class="form-check-label"> fixed </span>
+                                                </label>
+                                            </div>
+                                        </div> <!-- col.// -->
+                                    </div> <!-- row.// -->
+                                    <hr class="mb-4 mt-0">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <h6>6. Blade style</h6>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="mb-4">
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="style" id="style"
+                                                        value="clip-point" type="radio"
+                                                        <%if(productData.bladeStyle=='clip-point' ){%> checked <%}%>>
+                                                        <span class="form-check-label"> clip-point </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="style" id="style"
+                                                        value="trailing-point" type="radio"
+                                                        <%if(productData.bladeStyle=='trailing-point' ){%> checked <%}%>
+                                                        >
+                                                        <span class="form-check-label"> trailing-point </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="style" id="style"
+                                                        value="drop point" type="radio"
+                                                        <%if(productData.bladeStyle=='drop point' ){%> checked <%}%>>
+                                                        <span class="form-check-label"> drop point </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="style" id="style"
+                                                        value="spear-point" type="radio"
+                                                        <%if(productData.bladeStyle=='spear-point' ){%> checked <%}%>>
+                                                        <span class="form-check-label"> spear-point </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="style" id="style"
+                                                        value="straight back" type="radio"
+                                                        <%if(productData.bladeStyle=='straight back' ){%> checked <%}%>>
+                                                        <span class="form-check-label"> straight back </span>
+                                                </label>
+                                            </div>
+                                        </div> <!-- col.// -->
+                                    </div> <!-- row.// -->
+                                    <hr class="mb-4 mt-0">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <h6>7. Blade steel</h6>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="mb-4">
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="steel" id="steel"
+                                                        value="stainless steel" type="radio"
+                                                        <%if(productData.bladeSteel=='stainless steel' ){%> checked
+                                                    <%}%>>
+                                                        <span class="form-check-label"> stainless steel </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="steel" id="steel"
+                                                        value="premium stainless steel" type="radio"
+                                                        <%if(productData.bladeSteel=='premium stainless steel' ){%>
+                                                    checked <%}%>>
+                                                        <span class="form-check-label"> premium stainless steel </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="steel" id="steel"
+                                                        value="super steel" type="radio"
+                                                        <%if(productData.bladeSteel=='super steel' ){%> checked <%}%>>
+                                                        <span class="form-check-label"> super steel </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="steel" id="steel"
+                                                        value="tool steel" type="radio"
+                                                        <%if(productData.bladeSteel=='tool steel' ){%> checked <%}%>>
+                                                        <span class="form-check-label"> tool steel </span>
+                                                </label>
+                                            </div>
+                                        </div> <!-- col.// -->
+                                    </div> <!-- row.// -->
+                                    <hr class="mb-4 mt-0">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <h6>8. weight</h6>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="mb-4">
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="weight" id="weight"
+                                                        value="light" type="radio" <%if(productData.weight=='light' ){%>
+                                                    checked <%}%>>
+                                                        <span class="form-check-label"> light </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="weight" id="weight"
+                                                        value="medium" type="radio" <%if(productData.weight=='medium'
+                                                        ){%> checked <%}%>>
+                                                        <span class="form-check-label"> medium </span>
+                                                </label>
+                                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                                    <input class="form-check-input" name="weight" id="weight"
+                                                        value="heavy" type="radio" <%if(productData.weight=='heavy' ){%>
+                                                    checked <%}%>>
+                                                        <span class="form-check-label"> heavy </span>
+                                                </label>
+                                            </div>
+                                        </div> <!-- col.// -->
+                                    </div> <!-- row.// -->
+                                    <hr class="mb-4 mt-0">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <h6>9. Media</h6>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="mb-4">
+                                                <div class="card mb-4">
+                                                    <div class="card-body">
+                                                        <% if (productData.productImages &&
+                                                            productData.productImages.length> 0) { %>
+                                                            <% for (let i=0; i < productData.productImages.length; i++)
+                                                                { %>
+                                                                <div class="mb-4">
+                                                                    <label class="form-label">Image <%= i + 1 %></label>
+                                                                    <img id="imgView<%= i %>"
+                                                                        src="/productImages/<%= productData.productImages[i] %>"
+                                                                        alt="">
+                                                                    <input class="form-control" name="image" type="file"
+                                                                        onchange="viewImage(event,<%= i %>)">
+                                                                </div>
+                                                                <% } %>
+                                                                    <% } else { %>
+                                                                        <div class="mb-4">
+                                                                            <label class="form-label">New Image</label>
+                                                                            <input class="form-control" name="image"
+                                                                                type="file" multiple>
+                                                                        </div>
+                                                                        <% } %>
+                                                    </div>
+
+                                                </div>
+                                                <div class="images-container">
+                                                    <!-- Add Product Images Here -->
+                                                </div>
+                                                <button type="button" class="btn btn-primary mb-3"
+                                                    onclick="addImage()">Add Image</button>
+                                                <button type="button" class="btn btn-danger mb-3"
+                                                    onclick="deleteImages()">Delete Selected Images</button>
+                                            </div>
+                                        </div> <!-- col.// -->
+                                    </div> <!-- .row end// -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </section> <!-- content-main end// -->
+            </form>
+
+
+            <script>
+
+                function viewImage(event, imageIndex) {
+                    const imgView = document.getElementById(`imgView${imageIndex}`);
+                    imgView.src = URL.createObjectURL(event.target.files[0]);
+                }
+
+                let imageCount = 0;
+                const selectedImages = [];
+
+                function addImage() {
+                    if (imageCount < 4) {
+                        imageCount++;
+                        const container = document.querySelector('.images-container');
+                        const imageDiv = document.createElement('div');
+                        imageDiv.classList.add('mb-4');
+                        imageDiv.innerHTML = `
+                    <label class="form-label">Image ${imageCount}</label>
+                    <div class="image-container">
+                        <img src="" alt="" id="image-preview${imageCount}">
+                        <canvas style="display: none" id="image-canvas${imageCount}"></canvas>
+                    </div>
+                    <input class="form-control" name="image" type="file" onchange="displayImage(${imageCount}, this)">
+                    <button class="btn mt-5 btn-md rounded font-sm" onclick="cropImage(${imageCount})">Crop</button>
+                    <input type="checkbox" class="image-checkbox" onchange="toggleImageSelection(${imageCount}, this)">
+                `;
+                        container.appendChild(imageDiv);
+                    }
+                }
+
+
+                function displayImage(imageNumber, input) {
+                    const preview = document.getElementById(`image-preview${imageNumber}`);
+
+                    if (input.files && input.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            preview.src = e.target.result;
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    } else {
+                        preview.src = '';
+                    }
+                }
+
+                function cropImage(imageNumber) {
+                    const image = document.getElementById(`image-preview${imageNumber}`);
+                    const canvas = document.getElementById(`image-canvas${imageNumber}`);
+                    const cropper = new Cropper(image, {
+                        aspectRatio: 1, // You can adjust the aspect ratio as needed
+                        viewMode: 1,
+                        ready: () => {
+                            cropper.crop();
+                        },
+                        crop: () => {
+                            const croppedData = cropper.getData();
+                            const croppedCanvas = cropper.getCroppedCanvas();
+                            canvas.width = croppedData.width;
+                            canvas.height = croppedData.height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(croppedCanvas, 0, 0, croppedData.width, croppedData.height);
+                        },
+                    });
+                }
+
+                function toggleImageSelection(imageNumber, checkbox) {
+                    if (checkbox.checked) {
+                        selectedImages.push(imageNumber);
+                    } else {
+                        const index = selectedImages.indexOf(imageNumber);
+                        if (index > -1) {
+                            selectedImages.splice(index, 1);
+                        }
+                    }
+                }
+
+                function deleteImages() {
+                    const container = document.querySelector('.images-container');
+                    selectedImages.forEach((imageNumber) => {
+                        const imageDiv = document.getElementById(`image-preview${imageNumber}`).parentNode.parentNode;
+                        container.removeChild(imageDiv);
+                    });
+                    selectedImages.length = 0; // Clear the selectedImages array
+                }    
+            </script>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    document.getElementById("form").addEventListener("submit", function (event) {
+                        event.preventDefault();
+                        if (validateForm()) {
+                            this.submit();
+                        }
+                    });
+
+                    function validateForm() {
+                        const title = document.querySelector('input[name="title"]').value;
+                        const quantity = document.querySelector('input[name="quantity"]').value;
+                        const description = document.querySelector('textarea[name="description"]').value;
+                        const handle = document.querySelector('input[name="handle"]').value;
+                        const length = document.querySelector('input[name="length"]').value;
+                        const price = document.querySelector('input[name="price"]').value;
+                        const discountPrice = document.querySelector('input[name="discountPrice"]').value;
+
+                        // Reset error messages
+                        document.getElementById("title-error").textContent = "";
+                        document.getElementById("quantity-error").textContent = "";
+                        document.getElementById("description-error").textContent = "";
+                        document.getElementById("handle-error").textContent = "";
+                        document.getElementById("length-error").textContent = "";
+                        document.getElementById("price-error").textContent = "";
+                        document.getElementById("discountPrice-error").textContent = "";
+
+                        let isValid = true;
+
+                        if (!title) {
+                            document.getElementById("title-error").textContent = "Please enter a title.";
+                            isValid = false;
+                        }
+                        if (!quantity) {
+                            document.getElementById("quantity-error").textContent = "Please enter a quantity.";
+                            isValid = false;
+                        }
+                        if (!description) {
+                            document.getElementById("description-error").textContent = "Please enter a description.";
+                            isValid = false;
+                        }
+                        if (!handle) {
+                            document.getElementById("handle-error").textContent = "Please enter a handle.";
+                            isValid = false;
+                        }
+                        if (!length) {
+                            document.getElementById("length-error").textContent = "Please enter a length.";
+                            isValid = false;
+                        }
+                        if (!price) {
+                            document.getElementById("price-error").textContent = "Please enter a price.";
+                            isValid = false;
+                        }
+                        if (!discountPrice) {
+                            document.getElementById("discountPrice-error").textContent = "Please enter a discounted price.";
+                            isValid = false;
+                        }
+
+                        // Add more validation rules and error messages for other fields as needed.
+
+                        return isValid;
+                    }
+                });
+            </script>
+
+            <%- include('../Layouts/adminFooter') %>

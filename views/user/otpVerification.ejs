@@ -1,0 +1,144 @@
+<%- include('../layouts/header') %>
+
+
+    <div class="container height-100 d-flex justify-content-center align-items-center">
+        <div class="position-relative">
+            <div style="color: rgb(89, 89, 89);" class="card p-2 text-center">
+                <h6 style="color: rgb(0, 0, 0);"> Please enter the one time password. <br> to verify your account</h6>
+                <div> <span>A code has been sent to you mail</span> <br>
+
+
+                </div>
+                <form action="/verifyOtp" method="POST">
+                    <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+                        <input class="m-2 text-center form-control rounded" type="text" name="first" maxlength="1"
+                            oninput="moveToNextOrPreviousInput(this, 'second', 'first')" />
+                        <input class="m-2 text-center form-control rounded" type="text" name="second" maxlength="1"
+                            oninput="moveToNextOrPreviousInput(this, 'third', 'first')" />
+                        <input class="m-2 text-center form-control rounded" type="text" name="third" maxlength="1"
+                            oninput="moveToNextOrPreviousInput(this, 'fourth', 'second')" />
+                        <input class="m-2 text-center form-control rounded" type="text" name="fourth" maxlength="1"
+                            oninput="moveToNextOrPreviousInput(this, null, 'third')" />
+                    </div>
+                    <div>
+                        <span><br> OTP is only valid for <span style="color: red; font-size: 15px;"
+                                id="otp-expiry-time">01:00</span> minutes.</span>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary px-4 validate">Validate</button>
+                    </div>
+                </form>
+
+
+
+                <div id="invalid">
+                    <% if (typeof message !=='undefined' && message) { %>
+                        <p style="color: red;" id="message">
+                            <%= message %>
+                        </p>
+                        <% } %>
+                                      
+                </div>
+            </div>
+            <div class="card-2">
+                <div class="content d-flex justify-content-center align-items-center">
+                    <span>Didn't get the code. You can resend in <span id="resend-timer"
+                            style="color: red;">30</span>s</span>
+                    <a id="resend-button" href="/resendOtp" class="text-decoration-none resend-button ms-3">Resend</a>
+                </div>
+            </div>
+
+        </div>
+        <script>
+            function moveToNextOrPreviousInput(currentInput, nextInputName, previousInputName) {
+                if (currentInput.value.length === currentInput.maxLength) {
+                    var nextInput = document.getElementsByName(nextInputName)[0];
+                    if (nextInput) {
+                        nextInput.focus();
+                    }
+                } else if (event.key === 'Backspace') {
+                    var previousInput = document.getElementsByName(previousInputName)[0];
+                    if (previousInput) {
+                        previousInput.focus();
+                    }
+                }
+            }
+            // Get the OTP expiration time from the server (in seconds)
+            const otpExpiryTimeInSeconds = 60;
+
+            // Function to update the timer
+            function updateTimer() {
+                const otpExpiryTimeElement = document.getElementById('otp-expiry-time');
+                const currentTime = new Date().getTime();
+                const otpGeneratedTime = <%= otpGeneratedTime %>; // You can pass this value from the server
+                const timeRemaining = Math.max(0, otpExpiryTimeInSeconds - Math.floor((currentTime - otpGeneratedTime) / 1000));
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                const formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                otpExpiryTimeElement.textContent = formattedTime;
+
+                if (timeRemaining > 0) {
+                    setTimeout(updateTimer, 1000); // Update the timer every second
+                }
+            }
+
+
+            updateTimer();
+
+            const resendButton = document.getElementById('resend-button');
+            const resendTimer = document.getElementById('resend-timer');
+
+            const countdownDuration = 30;
+
+            const otpGeneratedTime = <%= otpGeneratedTime %>;
+
+            function updateResendTimer() {
+                const currentTime = Date.now();
+                const timeElapsedInSeconds = Math.floor((currentTime - otpGeneratedTime) / 1000);
+                const remainingTime = countdownDuration - timeElapsedInSeconds;
+
+                if (remainingTime <= 0) {
+                    resendButton.href = '/resendOtp';
+                    resendButton.classList.remove('disabled');
+                    resendTimer.textContent = '0';
+                } else {
+                    resendButton.removeAttribute('href');
+                    resendButton.classList.add('disabled');
+                    resendTimer.textContent = remainingTime;
+                    setTimeout(updateResendTimer, 1000);
+                }
+            }
+
+            updateResendTimer();
+
+
+        </script>
+        <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+        <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
+        <script src="assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+        <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/plugins/slick.js"></script>
+        <script src="assets/js/plugins/jquery.syotimer.min.js"></script>
+        <script src="assets/js/plugins/wow.js"></script>
+        <script src="assets/js/plugins/jquery-ui.js"></script>
+        <script src="assets/js/plugins/perfect-scrollbar.js"></script>
+        <script src="assets/js/plugins/magnific-popup.js"></script>
+        <script src="assets/js/plugins/select2.min.js"></script>
+        <script src="assets/js/plugins/waypoints.js"></script>
+        <script src="assets/js/plugins/counterup.js"></script>
+        <script src="assets/js/plugins/jquery.countdown.min.js"></script>
+        <script src="assets/js/plugins/images-loaded.js"></script>
+        <script src="assets/js/plugins/isotope.js"></script>
+        <script src="assets/js/plugins/scrollup.js"></script>
+        <script src="assets/js/plugins/jquery.vticker-min.js"></script>
+        <script src="assets/js/plugins/jquery.theia.sticky.js"></script>
+        <script src="assets/js/plugins/jquery.elevatezoom.js"></script>
+        <!-- Template  JS -->
+        <script src="assets/js/main.js"></script>
+        <script src="assets/js/shop.js"></script>
+
+
+        </body>
+
+        </html>

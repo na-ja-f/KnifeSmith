@@ -1,0 +1,102 @@
+<%- include('../layouts/adminSidebar') %>
+
+    <main class="main-wrap">
+        <%- include('../layouts/adminHeader') %>
+
+            <section class="content-main">
+                <div class="content-header">
+                    <h2 class="content-title">Categories list</h2>
+                    <div>
+                        <a href="/admin/addCategories" class="btn btn-primary"><i
+                                class="material-icons md-plus"></i>Create category</a>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>image</th>
+                                        <th>name</th>
+                                        <th>description</th>
+                                        <th>status</th>
+                                        <th class="text-end"> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (catData.length> 0) {
+                                        for (let i = 0; i < catData.length; i++) { %>
+                                            <tr>
+                                                <td>
+                                                    <div class="left">
+                                                        <img src="/categoryImages/<%= catData[i].image %>"
+                                                            class="img-sm" alt="catpic">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <h6 class="mb-0 title">
+                                                            <%= catData[i].category %>
+                                                        </h6>
+                                                    </div>
+                                                </td>
+                                                <td width="50%">
+                                                    <div>
+                                                        <h6 class="mb-0 title">
+                                                            <%= catData[i].description %>
+                                                        </h6>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <% if ( catData[i].isListed==true) { %>
+                                                        <span class="badge rounded-pill"
+                                                            style="background-color: green;">listed</span>
+                                                        <% } else { %>
+                                                            <span class="badge rounded-pill"
+                                                                style="background-color: red;">unlisted</span>
+                                                            <% } %>
+                                                </td>
+                                                <td class="text-end">
+                                                    <div class="dropdown">
+                                                        <a href="#" data-bs-toggle="dropdown"
+                                                            class="btn btn-light rounded btn-sm font-sm"> <i
+                                                                class="material-icons md-more_horiz"></i> </a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item"
+                                                                href="/admin/editCategory?id=<%= catData[i]._id %>">Edit</a>
+                                                            <% if (catData[i].isListed==true) { %>
+                                                                <a class="dropdown-item text-danger"
+                                                                    href="/admin/unlistCat?id=<%= catData[i]._id %>">
+                                                                    unlist </a>
+                                                                <% } else { %>
+                                                                    <a class="dropdown-item text-success"
+                                                                        href="/admin/listCat?id=<%= catData[i]._id %>">
+                                                                        list </a>
+                                                                    <% }%>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% } } %>
+
+                                </tbody>
+                            </table> <!-- table-responsive.// -->
+                        </div>
+                    </div> <!-- card-body end// -->
+                </div> <!-- card end// -->
+                <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <% for (let page=1; page <=totalPages; page++) { %>
+                                <li class="page-item <%= page === currentPage ? 'active' : '' %>">
+                                    <a class="page-link" href="/admin/categoriesList?page=<%= page %>">
+                                        <%= page %>
+                                    </a>
+                                </li>
+                                <% } %>
+                        </ul>
+                    </nav>
+                </div>
+            </section>
+            <%- include('../layouts/adminFooter') %>
