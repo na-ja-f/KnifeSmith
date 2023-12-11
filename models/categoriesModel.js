@@ -16,7 +16,14 @@ const categoriesSchema = new mongoose.Schema({
     isListed: {
         type: Boolean,
         default: true
-    }
+    },
+    discountStatus:{
+        type:Boolean,
+        default:false
+      },
+      discount:String,
+      discountStart:Date,
+      discountEnd:Date,
 })
 
 module.exports = mongoose.model('category', categoriesSchema)

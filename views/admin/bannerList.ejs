@@ -1,0 +1,149 @@
+<%- include('../layouts/adminSidebar') %>
+    <main class="main-wrap">
+
+        <%- include('../layouts/adminHeader') %>
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Banner List</h2>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <form action="" method="get">
+
+                        <div style="display: flex;  align-items: center;">
+                            <input type="text" id="searchInput" class="form-control"
+                                placeholder="Search for products...">
+                        </div>
+                    </form>
+                </div>
+
+
+                <div class="card-body">
+
+                    <table id="banner" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">image</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Subtitle</th>
+                                <th scope="col">description</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (banner.length> 0) {
+                                for (let i = 0; i < banner.length; i++) { %>
+                                    <tr>
+                                        <td>
+                                            <a class="itemside" href="#">
+                                                <div class="left">
+                                                    <img src="/bannerImages/<%= banner[i].image %>"
+                                                        class="img-sm img-thumbnail" alt="Item">
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <%= banner[i].title %>
+                                        </td>
+                                        <td>
+                                            <%= banner[i].subtitle %>
+                                        </td>
+
+                                        <td>
+                                            <%= banner[i].description %>
+                                        </td>
+
+                                        <td>
+                                            <% if (banner[i].isListed==0) { %>
+                                                <a href="/admin/blockBanner?bannerId=<%= banner[i]._id %>"
+                                                    class="btn btn-sm font-sm rounded btn-danger">
+                                                    <i class="material-icons md-edit"></i> Unlist
+                                                </a>
+                                                <% } else { %>
+                                                    <a href="/admin/blockBanner?bannerId=<%= banner[i]._id %>"
+                                                        class="btn btn-sm font-sm rounded btn-brand">
+                                                        <i class="material-icons md-edit"></i> List
+                                                    </a>
+
+                                                    <% } %>
+                                                        <a class="btn btn-sm font-sm rounded btn-light"
+                                                            href="/admin/bannerEdit?bannerId=<%= banner[i]._id %>"
+                                                            class="material-icons md-edit"></i>Edit</a>
+
+                                        </td>
+                                    </tr>
+                                    <% } } else { %>
+                                        <tr>
+                                            <td colspan="6">
+                                                <p>User not found</p>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                        </tbody>
+                    </table>
+
+                </div> <!-- card-body end// -->
+                </div> <!-- card end// -->
+
+                <div class="pagination-area mt-30 mb-50" style="display: flex; justify-content: center;">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <% if (currentPage> 1) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<%= currentPage - 1 %>">
+                                        << /a>
+                                </li>
+                                <% } %>
+
+                                    <% for (let i=1; i <=totalPages; i++) { %>
+                                        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                            <a class="page-link" href="?page=<%= i %>">
+                                                <%= i %>
+                                            </a>
+                                        </li>
+                                        <% } %>
+
+                                            <% if (currentPage < totalPages) { %>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<%= currentPage + 1 %>">></a>
+                                                </li>
+                                                <% } %>
+
+
+                        </ul>
+                    </nav>
+                </div>
+            </section> <!-- content-main end// -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+            <script>
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    const searchInput = document.getElementById("searchInput");
+                    const table = document.getElementById("banner");
+                    const rows = table.getElementsByTagName("tr");
+
+                    searchInput.addEventListener("keyup", function () {
+                        const searchText = searchInput.value.toLowerCase();
+
+                        for (let i = 1; i < rows.length; i++) {
+                            const rowData = rows[i].textContent.toLowerCase();
+                            if (rowData.includes(searchText)) {
+                                rows[i].style.display = "";
+                            } else {
+                                rows[i].style.display = "none";
+                            }
+                        }
+                    });
+                });
+                $(document).ready(function () {
+                    $('#banner').DataTable({
+                        "lengthMenu": [10, 25, 50, 100], // Specify the number of items per page
+                        "pageLength": 10, // Set the default number of items per page
+                    });
+                });
+            </script>
+
+            <%- include('../layouts/adminFooter.ejs') %>

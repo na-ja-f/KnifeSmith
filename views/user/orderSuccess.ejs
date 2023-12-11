@@ -15,7 +15,7 @@
                                 <p class="lead">Your order details:</p>
                                 <ul class="list-group mb-4">
                                     <li class="list-group-item"><strong>Order ID:</strong>
-                                        <%= orderData._id %>
+                                        <%= orderData.orderID %>
                                     </li>
                                     <li class="list-group-item"><strong>Order Date:</strong>
                                         <%= orderData.orderDate.toDateString() %>
@@ -38,7 +38,7 @@
                                 <p class="text-primary">Expected Delivery: Within 2-4 days</p>
 
                                 <div class="d-flex">
-                                    <a href="/home" class="btn btn-outline-primary-2 m-4">Continue Shopping</a>
+                                    <a href="/" class="btn btn-outline-primary-2 m-4">Continue Shopping</a>
                                     <a class="btn btn-outline-primary-2 m-4"
                                         href="/userorderdetails?orderId=<%= orderData._id.toString() %>">Order
                                         Details</a>

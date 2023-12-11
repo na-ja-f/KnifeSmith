@@ -19,6 +19,8 @@ const productController = require('../controllers/productController')
 const catController = require('../controllers/categoryController')
 const orderController = require('../controllers/orderController')
 const couponController = require('../controllers/couponController')
+const offerController = require('../controllers/offerController')
+const bannerController = require('../controllers/bannerController')
 
 // * getting multers
 const multerMiddleware = require('../helpers/multers')
@@ -52,12 +54,26 @@ router.get('/orderdetails', auth.isLogin, orderController.adminOrderDetails)
 router.get('/cancelProduct', auth.isLogin, orderController.produtCancel)
 router.get('/refundOrder', auth.isLogin, orderController.returnOrder)
 router.get('/cancelOrder', auth.isLogin, orderController.orderCancel)
+router.get("/transactionList", auth.isLogin, orderController.transactionList)
+router.get("/salesReport", auth.isLogin, orderController.loadSalesReport);
+
+
 // coupon
 router.get('/addCoupon', auth.isLogin, couponController.addCouponPage)
 router.get('/couponList', auth.isLogin, couponController.couponList)
 router.get('/couponUnlist', auth.isLogin, couponController.unlistCoupon)
 router.get('/couponDetails', auth.isLogin, couponController.couponDetails)
 router.get('/loadEditCoupon', auth.isLogin, couponController.loadEditCoupon)
+// offer
+router.get('/addOffer', auth.isLogin, offerController.loadOfferAdd)
+router.get('/offerList', auth.isLogin, offerController.OfferList)
+router.get('/blockOffer', auth.isLogin, offerController.offerBlock)
+router.get('/offerEdit', auth.isLogin, offerController.loadOfferEdit)
+// Banner 
+router.get("/bannerAdd", auth.isLogin, bannerController.loadBannerAdd);
+router.get("/bannerList", auth.isLogin, bannerController.bannerList);
+router.get("/bannerEdit", auth.isLogin, bannerController.loadBannerEdit);
+router.get('/blockBanner', auth.isLogin, bannerController.blockBanner)
 
 
 
@@ -73,6 +89,13 @@ router.post('/editProduct', multerMiddleware.productUpload.array('image', 4), pr
 // coupon
 router.post('/addCoupon', couponController.insertCoupon)
 router.post('/loadEditCoupon', couponController.insertEditCoupon)
+// offer
+router.post('/addOffer', offerController.addOffer)
+router.post('/offerEdit', offerController.editOffer)
+// banner
+router.post("/bannerAdd", multerMiddleware.bannerUpload.single("image"), bannerController.addBanner);
+router.post("/bannerEdit", multerMiddleware.bannerUpload.single("image"), bannerController.bannerEdit);
+
 
 
 module.exports = router;

@@ -1,8 +1,6 @@
 // !  models
 // * user model
 const user = require("../models/userModel");
-// * user otp model
-const userOtpVerification = require("../models/otpVerificationModel");
 // * category model
 const category = require('../models/categoriesModel')
 // * product model

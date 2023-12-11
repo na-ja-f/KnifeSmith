@@ -19,10 +19,17 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
-  orderDate: {
+  createDate: {
     type: Date,
     default: Date.now,
   },
+  discountStatus:{
+    type:Boolean,
+    default:false
+  },
+  discount:Number,
+  discountStart:Date,
+  discountEnd:Date,
 });
 
 module.exports = mongoose.model('Product', productSchema);

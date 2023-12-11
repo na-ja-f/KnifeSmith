@@ -8,8 +8,6 @@ require('dotenv').config();
 // !  models
 // * user model
 const user = require("../models/userModel");
-// * user otp model
-const userOtpVerification = require("../models/otpVerificationModel");
 // * category model
 const category = require('../models/categoriesModel')
 // * product model
@@ -18,6 +16,8 @@ const product = require('../models/productModel')
 const address = require('../models/addressModel')
 // * order model 
 const order = require('../models/orderModel')
+// * banner model 
+const Banner = require('../models/bannerModel')
 
 // ? node mailer
 const sendVarifyMail = async (req, name, email) => {
@@ -61,7 +61,8 @@ const homepage = async (req, res) => {
   try {
     const productData = await product.find({}).limit(5)
     const catData = await category.find({});
-    res.render("home", { session: req.session, catData, productData });
+    const banData = await Banner.find({});
+    res.render("home", { session: req.session, catData, productData,banData });
   } catch (error) {
     console.log(error.message);
   }

@@ -1,0 +1,110 @@
+<%- include('../layouts/adminSidebar') %>
+
+    <main class="main-wrap">
+        <%- include('../layouts/adminHeader') %>
+
+            <form action="" method="post" enctype="multipart/form-data" id="banner-form">
+                <section class="content-main">
+                    <div class="row">
+                        <div class="col-9">
+
+                            <div class="content-header">
+                                <h2 class="content-title">Edit Banner</h2>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mb-4">
+                            <input type="submit" value="submit" class="btn btn-md rounded font-sm hover-up">
+                        </div>
+                        <div class="col-lg-12">
+
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4>Picture</h4>
+                                </div>
+                                <input type="hidden" value="<%= banner._id %>" name="bannerId" id="">
+
+                                <div class="card-body">
+                                    <div class="input-upload">
+                                        <img id="image-preview" src="/bannerImages/<%= banner.image %>" alt="">
+                                        <input class="form-control" value="<%=banner.image%>" type="file" name="image"
+                                            id="banner_image" accept="image/*">
+                                        <div class="error-message" style="color: red;" id="banner_image-error"></div>
+                                    </div>
+                                </div>
+                            </div> <!-- card end// -->
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="mb-4">
+                                        <label for="category_name" class="form-label">Banner title</label>
+                                        <input type="text" name="title" placeholder="Type here"
+                                            value="<%=banner.title%>" class="form-control" id="banner_name">
+                                        <div class="error-message" style="color: red;" id="banner_name-error"></div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="category_name" class="form-label">Subtitle</label>
+                                        <input type="text" name="subtitle" placeholder="Type here"
+                                            value="<%=banner.subtitle%>" class="form-control" id="banner_subtitle">
+                                        <div class="error-message" style="color: red;" id="banner_subtitle-error"></div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="category_name" class="form-label">description</label>
+                                        <input type="text" name="description" placeholder="Type here"
+                                            value="<%=banner.description%>" class="form-control" id="offer">
+                                        <div class="error-message" style="color: red;" id="offer-error"></div>
+                                    </div>
+
+
+
+                                </div>
+                            </div> <!-- card end// -->
+                        </div>
+                    </div>
+
+
+                    <div id="invalid">
+                        <% if (typeof message !=='undefined' && message) { %>
+                            <p style="color: red;" id="message">
+                                <%= message %>
+                            </p>
+                            <% } %>
+                                          
+                    </div>
+                    </div>
+
+
+                </section> <!-- content-main end// -->
+            </form>
+
+
+
+
+
+            <script>
+                const imagePreview = document.getElementById('image-preview');
+                const categoryImageInput = document.getElementById('banner_image');
+
+                categoryImageInput.addEventListener('change', function () {
+                    if (this.files && this.files[0]) {
+                        const reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            imagePreview.src = e.target.result;
+                        };
+
+                        reader.readAsDataURL(this.files[0]);
+                    } else {
+                        imagePreview.src = "../../Public/adminAssets/imgs/theme/upload.svg";
+                    }
+                });
+
+            </script>
+
+
+
+
+            <%- include('../Layouts/adminFooter.ejs') %>

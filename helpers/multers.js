@@ -23,8 +23,21 @@ const productStorage = multer.diskStorage({
 });
 const productUpload = multer({ storage: productStorage, limits: { fileSize: 10 * 1024 * 1024 }, });
 
+// * multer for banner
+const bannerStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, "../Public/bannerImages"));
+    },
+    filename: (req, file, cb) => {
+        const name = Date.now() + "-" + file.originalname;
+        cb(null, name);
+    },
+});
+const bannerUpload = multer({ storage: bannerStorage });
+
 
 module.exports = {
     categoryUpload,
-    productUpload
+    productUpload,
+    bannerUpload
 }

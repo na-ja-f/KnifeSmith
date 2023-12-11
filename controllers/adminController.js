@@ -6,6 +6,8 @@ const user = require("../models/userModel");
 const category = require('../models/categoriesModel')
 // * product model
 const product = require('../models/productModel')
+// * product model
+const Order = require('../models/orderModel')
 
 // * dotenv
 require("dotenv").config();
@@ -41,7 +43,61 @@ const verifyLogin = async (req, res) => {
 //   ! dashboard
 const loadDashboard = async (req, res) => {
   try {
-    res.render("dashboard");
+    const [
+      totalRevenue,
+      totalUsers,
+      totalOrders,
+      totalProducts,
+      totalCategories,
+      orders,
+      monthlyEarnings,
+      newUsers,
+    ] = await Promise.all([
+      Order.aggregate([
+        { $match: { paymentStatus: "Payment Successful" } },
+        { $group: { _id: null, totalAmount: { $sum: "$totalAmount" } } },
+      ]),
+      user.countDocuments({ is_blocked: false, is_verified: true }),
+      Order.countDocuments(),
+      product.countDocuments(),
+      category.countDocuments(),
+      Order.find().populate("user").limit(10).sort({ orderDate: -1 }),
+      Order.aggregate([
+        {
+          $match: {
+            paymentStatus: "Payment Successful",
+            orderDate: {
+              $gte: new Date(
+                new Date().getFullYear(),
+                new Date().getMonth(),
+                1
+              ),
+            },
+          },
+        },
+        { $group: { _id: null, monthlyAmount: { $sum: "$totalAmount" } } },
+      ]),
+      user.find({ is_blocked: 0, is_varified: 1 })
+        .sort({ date: -1 })
+        .limit(5),
+    ]);
+
+    const totalRevenueValue =
+      totalRevenue.length > 0 ? totalRevenue[0].totalAmount : 0;
+
+    const monthlyEarningsValue =
+      monthlyEarnings.length > 0 ? monthlyEarnings[0].monthlyAmount : 0;
+
+    res.render("dashboard", {
+      orders,
+      newUsers,
+      totalRevenue: totalRevenueValue,
+      totalOrders,
+      totalProducts,
+      totalCategories,
+      totalUsers,
+      monthlyEarnings: monthlyEarningsValue,
+    });
   } catch (error) {
     console.log(error.message);
   }
@@ -60,11 +116,11 @@ const logout = async (req, res) => {
 // ! load user
 const loadUsers = async (req, res) => {
   try {
-    const userData = await user.find({});
     const itemsPerPage = 5;
     let currentPage = parseInt(req.query.page) || 1;
     currentPage = currentPage > 0 ? currentPage : 1;
-    const totalProducts = await user.countDocuments({})
+    const totalProducts = await user.countDocuments({});
+    const userData = await user.find({}).skip((currentPage - 1) * itemsPerPage).limit(itemsPerPage);
 
 
     res.render("usersPage", { userData, currentPage, totalPages: Math.ceil(totalProducts / itemsPerPage) });
@@ -96,6 +152,8 @@ const unblockUser = async (req, res) => {
     console.log(error.message);
   }
 }
+
+
 
 
 module.exports = {

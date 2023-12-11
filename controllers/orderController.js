@@ -520,6 +520,34 @@ const applyCoupon = async (req, res) => {
     }
 };
 
+// ! Function to cancel single product in an order
+const produtCancel = async (req, res) => {
+    try {
+        const orderId = req.query.orderId;
+        const productId = req.query.productId;
+        console.log(productId)
+        const Order = await order.findOne({ _id: orderId })
+            .populate("user")
+            .populate({
+                path: "items.product",
+                model: "Product",
+            });
+        for (const item of Order.items) {
+            if (item.product._id == productId) {
+                item.status = "Cancelled";
+                Order.totalAmount -= item.product.discountPrice;
+                Order.user.walletBalance += item.product.discountPrice;
+                item.product.quantity += item.quantity;
+
+            }
+        }
+        await Order.save();
+        res.redirect(`/admin/orderDetails?orderId=${orderId}`);
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 
 
 
@@ -711,33 +739,91 @@ const orderCancel = async (req, res) => {
 };
 
 
-// ! Function to cancel single product in an order
-const produtCancel = async (req, res) => {
+// ! Transaction List
+const transactionList = async (req, res) => {
     try {
-        const orderId = req.query.orderId;
-        const productId = req.query.productId;
-        console.log(productId)
-        const Order = await order.findOne({ _id: orderId })
-            .populate("user")
-            .populate({
-                path: "items.product",
-                model: "Product",
-            });
-        for (const item of Order.items) {
-            if (item.product._id == productId) {
-                item.status = "Cancelled";
-                Order.totalAmount -= item.product.discountPrice;
-                Order.user.walletBalance += item.product.discountPrice;
-                item.product.quantity += item.quantity;
-
+        const page = parseInt(req.query.page) || 1;
+        let query = {};
+        if (req.query.type) {
+            if (req.query.type === "debit") {
+                query.type = "debit";
+            } else if (req.query.type === "credit") {
+                query.type = "credit";
             }
         }
-        await Order.save();
-        res.redirect(`/admin/orderDetails?orderId=${orderId}`);
+        const limit = 7;
+        const totalCount = await Transaction.countDocuments(query);
+
+        const totalPages = Math.ceil(totalCount / limit);
+
+        const transactions = await Transaction.aggregate([
+            { $match: query },
+            { $sort: { date: -1 } },
+            { $skip: (page - 1) * limit },
+            { $limit: limit },
+        ]);
+        res.render("transactionList", {
+            transactions,
+            totalPages,
+            currentPage: page,
+        });
     } catch (error) {
         console.log(error.message);
     }
-}
+};
+
+// ! Sales Report Page 
+const loadSalesReport = async (req, res) => {
+    try {
+        let query = { paymentStatus: "Payment Successful" };
+
+        if (req.query.paymentMethod) {
+            if (req.query.paymentMethod === "Online Payment") {
+                query.paymentMethod = "Online Payment";
+            } else if (req.query.paymentMethod === "Wallet") {
+                query.paymentMethod = "Wallet";
+            } else if (req.query.paymentMethod === "Cash On Delivery") {
+                query.paymentMethod = "Cash On Delivery";
+            }
+        }
+
+        const orders = await order.find(query)
+            .populate("user")
+            .populate({
+                path: "address",
+                model: "Address",
+            })
+            .populate({
+                path: "items.product",
+                model: "Product",
+            })
+            .sort({ orderDate: -1 });
+
+        // total revenue
+        const totalRevenue = orders.reduce(
+            (acc, order) => acc + order.totalAmount,
+            0
+        );
+
+        const totalSales = orders.length;
+
+        // total Sold Products
+        const totalProductsSold = orders.reduce(
+            (acc, order) => acc + order.items.length,
+            0
+        );
+
+        res.render("salesReport", {
+            orders,
+            totalRevenue,
+            totalSales,
+            totalProductsSold,
+            req,
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+};
 
 module.exports = {
     checkoutPage,
@@ -752,5 +838,7 @@ module.exports = {
     orderFailed,
     razorpayOrder,
     orderCancel,
-    produtCancel
+    produtCancel,
+    transactionList,
+    loadSalesReport
 }

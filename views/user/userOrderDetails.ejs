@@ -112,7 +112,7 @@
                                                 <input type="hidden" name="productId" value="<%= item.product._id %>" id="">
                                                 <input type="hidden" value="Product Cancel" name="status" id="">
                                                 <input type="hidden" name="orderId" value="<%= orders._id %>" id="">
-                                                <button type="submit" class="btn btn-danger">Cancel</button>
+                                                <button type="submit" class="btn btn-danger" onclick="showCancelOrderPrompt()">Cancel</button>
                                             </form>
  
                                         <% } %>
@@ -221,25 +221,46 @@
 
 <script>
     function showCancelOrderPrompt() {
-        Swal.fire({
-            title: 'Confirm Order Cancellation',
-            text: 'Are you sure you want to cancel this order?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Confirm Cancellation'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // User clicked Confirm, submit the form
+    Swal.fire({
+        title: 'Confirm Order Cancellation',
+        html: `
+            <div>
+                <label for="cancellationReason">Reason for Cancellation:</label>
+                <textarea id="cancellationReason" rows="4" cols="50" style="background-color: #efefef;"></textarea>
+            </div>
+        `,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Confirm Cancellation'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const cancellationReason = document.getElementById('cancellationReason').value.trim();
+
+            if (cancellationReason === "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please provide a reason for cancellation',
+                });
+            } else {
                 document.getElementById('cancelOrderForm').submit();
             }
-        });
-    }
+        }
+    });
+}
+
 
     function showReturnOrderPrompt() {
         Swal.fire({
             title: 'Return Order',
+            html: `
+            <div>
+                <label for="cancellationReason">Reason for Cancellation:</label>
+                <textarea id="cancellationReason" rows="4" cols="50" style="background-color: #efefef;"></textarea>
+            </div>
+        `,
             text: 'Are you sure you want to return this order?',
             icon: 'question',
             showCancelButton: true,
@@ -248,8 +269,17 @@
             confirmButtonText: 'Confirm Return'
         }).then((result) => {
             if (result.isConfirmed) {
-                // User clicked Confirm, submit the form
+                const cancellationReason = document.getElementById('cancellationReason').value.trim();
+
+            if (cancellationReason === "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please provide a reason for cancellation',
+                });
+            } else {
                 document.getElementById('returnForm').submit();
+            }
             }
         });
     }
