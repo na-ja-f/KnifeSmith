@@ -57,6 +57,11 @@ const productList = async (req, res) => {
 
         let filterCriteria = {};
 
+        const searchQuery = req.query.search;
+        if (searchQuery) {
+            filterCriteria.name = { $regex: new RegExp(searchQuery, "i") };
+        }
+
         // ? for category part in home page
         if (req.query.category) {
             const Category = req.query.category;
@@ -100,15 +105,28 @@ const productList = async (req, res) => {
             filterCriteria.weight = { $in: req.body.weight };
         }
 
+
+
         const totalProducts = await product.countDocuments(filterCriteria);
         let num = 0;
         if (req.query.sort) {
             num = req.query.sort
         }
         const productData = await product.find(filterCriteria).sort({ price: num }).skip((currentPage - 1) * itemsPerPage).limit(itemsPerPage);
+
+        // Save selected filter values to be passed to the template
+        const selectedFilters = {
+            category: req.body.category || [],
+            color: req.body.color || [],
+            mechanism: req.body.mechanism || [],
+            style: req.body.style || [],
+            steel: req.body.steel || [],
+            weight: req.body.weight || [],
+        };
+
         res.render('productList', {
             productData, categoryData, currentPage, totalProducts, num,
-            totalPages: Math.ceil(totalProducts / itemsPerPage),
+            totalPages: Math.ceil(totalProducts / itemsPerPage), selectedFilters
         });
     } catch (error) {
         console.log(error.message);
@@ -185,7 +203,7 @@ const insertProduct = async (req, res) => {
             name: req.body.title,
             category: req.body.category,
             price: req.body.price,
-            discountPrice: req.body.discountPrice,
+            discountPrice: req.body.price,
             quantity: req.body.quantity,
             productImages: image,
             productColor: req.body.color,
@@ -277,10 +295,8 @@ const insertEditProduct = async (req, res) => {
             updateData.category = req.body.category
         }
         if (req.body.price) {
-            updateData.price = req.body.price
-        }
-        if (req.body.discountPrice) {
-            updateData.discountPrice = req.body.discountPrice
+            updateData.price = req.body.price;
+            updateData.discountPrice = req.body.price;
         }
         if (req.body.quantity) {
             updateData.quantity = req.body.quantity

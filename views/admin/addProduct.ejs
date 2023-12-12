@@ -75,13 +75,6 @@
                                                 <input type="text" name="price" placeholder="00.0" class="form-control">
                                                 <div class="error-message" style="color: red;" id="price-error"></div>
                                             </div>
-                                            <div class="mb-4">
-                                                <label class="form-label">Discounted Price</label>
-                                                <input type="text" name="discountPrice" placeholder="00.0"
-                                                    class="form-control">
-                                                <div class="error-message" style="color: red;" id="discountPrice-error">
-                                                </div>
-                                            </div>
                                         </div> <!-- col.// -->
                                     </div> <!-- row.// -->
                                     <hr class="mb-4 mt-0">
@@ -388,7 +381,6 @@
                         const handle = document.querySelector('input[name="handle"]').value;
                         const length = document.querySelector('input[name="length"]').value;
                         const price = document.querySelector('input[name="price"]').value;
-                        const discountPrice = document.querySelector('input[name="discountPrice"]').value;
 
                         // Reset error messages
                         document.getElementById("title-error").textContent = "";
@@ -397,7 +389,6 @@
                         document.getElementById("handle-error").textContent = "";
                         document.getElementById("length-error").textContent = "";
                         document.getElementById("price-error").textContent = "";
-                        document.getElementById("discountPrice-error").textContent = "";
 
                         let isValid = true;
 
@@ -423,10 +414,6 @@
                         }
                         if (!price) {
                             document.getElementById("price-error").textContent = "Please enter a price.";
-                            isValid = false;
-                        }
-                        if (!discountPrice) {
-                            document.getElementById("discountPrice-error").textContent = "Please enter a discounted price.";
                             isValid = false;
                         }
 

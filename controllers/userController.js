@@ -18,6 +18,8 @@ const address = require('../models/addressModel')
 const order = require('../models/orderModel')
 // * banner model 
 const Banner = require('../models/bannerModel')
+// * transaction model 
+const Transaction = require("../models/transactionModel");
 
 // ? node mailer
 const sendVarifyMail = async (req, name, email) => {
@@ -61,8 +63,8 @@ const homepage = async (req, res) => {
   try {
     const productData = await product.find({}).limit(5)
     const catData = await category.find({});
-    const banData = await Banner.find({});
-    res.render("home", { session: req.session, catData, productData,banData });
+    const banData = await Banner.find({isListed:true});
+    res.render("home", { session: req.session, catData, productData, banData });
   } catch (error) {
     console.log(error.message);
   }
@@ -103,6 +105,24 @@ const insertUser = async (req, res) => {
 
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
+    }
+
+    req.session.referralCode = req.body.referralCode || null;
+    const referralCode = req.session.referralCode;
+
+    let referrer;
+    if (referralCode) {
+      referrer = await user.findOne({ referralCode });
+
+      if (!referrer) {
+        res.render("registration", { message: "Invalid referral code." });
+      }
+
+      if (referrer.referredUsers.includes(req.body.email)) {
+        res.render("registration", {
+          message: "Referral code has already been used by this email.",
+        });
+      }
     }
 
     const spassword = await securePassword(req.body.password);
@@ -178,9 +198,38 @@ const verifyOtp = async (req, res) => {
         delete req.session.user_id;
         delete req.session.registerOtpVerify;
 
+        if (req.session.referralCode) {
+          await user.updateOne({ _id: userId }, { walletBalance: 50 });
+          const referrer = await user.findOne({
+            referralCode: req.session.referralCode,
+          });
+          const User = await user.findOne({ _id: userId });
+          referrer.referredUsers.push(User.email);
+          referrer.walletBalance += 100;
+          await referrer.save();
+
+          const referredUserTransaction = new Transaction({
+            user: referrer._id,
+            amount: 100,
+            type: "credit",
+            date: Date.now(),
+            paymentMethod: "Wallet",
+            description: "Referral Bonus",
+          });
+          const referrerTransaction = new Transaction({
+            user: userId,
+            amount: 50,
+            type: "credit",
+            date: Date.now(),
+            paymentMethod: "Wallet",
+            description: "Referral Bonus",
+          });
+          await referredUserTransaction.save();
+          await referrerTransaction.save();
+        }
+
         userData.is_varified = 1;
         await userData.save();
-
         res.render("verifiedOtp");
       } else {
         res.render("otpVerification", {
@@ -292,7 +341,17 @@ const profile = async (req, res) => {
     const id = req.session.userId
     const userData = await user.find({ _id: id });
     const addresses = await address.find({ user: id }).sort({ createdDate: -1 }).exec();
-
+    const userOrders = await order.find({
+      user: id,
+      paymentStatus: "Payment Successful",
+    });
+    const totalOrders = userOrders.length;
+    const totalSpending = userOrders.reduce(
+      (acc, order) => acc + order.totalAmount,
+      0
+    );
+    const uniqueProductIds = new Set(userOrders.flatMap(order => order.items.map(item => item.product)));
+    const totalUniqueProducts = uniqueProductIds.size;
     const orderData = await order.find({ user: id })
       .populate('user')
       .populate({
@@ -304,7 +363,7 @@ const profile = async (req, res) => {
         model: 'Product',
       }).sort({ orderDate: -1 })
 
-    res.render('profile', { userData, addresses, orderData })
+    res.render('profile', { userData, addresses, orderData, totalOrders, totalSpending, totalUniqueProducts })
   } catch (error) {
     console.log(error.message);
   }
@@ -394,8 +453,12 @@ const loadWallet = async (req, res) => {
   try {
     const id = req.session.userId;
     const userData = await user.findById(id);
+    const transactions = await Transaction.aggregate([
+      { $match: { user: userData._id, paymentMethod: "Wallet" } },
+      { $sort: { date: -1 } },
+    ]);
 
-    res.render("wallet", { User: userData });
+    res.render("wallet", { User: userData, transactions });
   } catch (error) {
     console.log(error.message);
   }

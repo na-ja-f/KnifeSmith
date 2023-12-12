@@ -44,13 +44,13 @@
 
 
 
-                                <div class="card" style="width: 500px;height: 400px;">
+                                <div class="card" style="width: 500px;height: 200px;margin-bottom: 50px;background-color: rgb(115, 206, 115);">
                                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                                        <i class="fa-solid fa-wallet" style="font-size: 50px;"></i>
+                                        <i class="fa-solid fa-wallet" style="font-size: 20px;"></i>
                                         <h3>Wallet Balance</h3>
 
-                                        <p style="font-size: 50px;margin-top: 20px;">
-                                            <%= User.walletBalance %>-rs
+                                        <p style="font-size: 30px;color: black;">
+                                            <strong><%= User.walletBalance %></strong>
                                         </p>
                                     </div>
 
@@ -58,6 +58,44 @@
 
                             </div>
 
+                            <div class="mt-5">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Transaction Id</th>
+                                          <th scope="col">Description</th>
+                                          <th scope="col">Transaction Type</th>
+                                          <th scope="col">Date</th>
+                                          <th scope="col">Amount</th>
+                                        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                        
+                                        <% transactions.forEach((transaction) => { %>
+                                            <tr style="height: 80px;">                    
+                                              <td><%= transaction._id %></td>
+                                              <td><%= transaction.description %></td>
+                                              <td>  <% if (transaction.type == 'debit') { %><span style="color: red;">
+                                                <%= transaction.type %></span>
+                                                <% } else { %>
+                                                    <span style="color: green;"> <%= transaction.type %></span>
+                                                    <% } %>
+                                            </td>
+                                              <td><%= new Date(transaction.date).toLocaleDateString() %></td>
+                                              <td>  <% if (transaction.type == 'debit') { %><span style="color: red;">
+                                                -  <%= transaction.amount %>
+                                              </span>
+                                              <% } else { %>
+                                                <span style="color: green;">+  <%= transaction.amount %></span>
+                                                <% } %>
+                                            </td>
+                                       
+                                        </tr>
+                                        <% } )%>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div><!-- End .col-lg-9 -->
 
 

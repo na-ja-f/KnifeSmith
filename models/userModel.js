@@ -39,7 +39,26 @@ const userSchema = new mongoose.Schema({
     walletBalance: {
         type: Number,
         default: 0
-    }
+    },
+    referralCode: {
+        type: String,
+        default: generateRandomReferralCode,
+    },
+    referredUsers: [{
+        type: String,
+    }],
 })
+
+function generateRandomReferralCode() {
+
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const codeLength = 6;
+    let referralCode = '';
+    for (let i = 0; i < codeLength; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        referralCode += characters.charAt(randomIndex);
+    }
+    return referralCode;
+}
 
 module.exports = mongoose.model('user', userSchema)

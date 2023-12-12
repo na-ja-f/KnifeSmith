@@ -52,6 +52,15 @@
                                                 <div class="error-message" style="color: red;"
                                                     id="confirmPassword-error"></div>
                                             </div>
+                                            <div class="form-group">
+                                                <label for="referral-toggle"></label>
+                                                <a class=" btn-link" id="referral-toggle">Do you have a referral code?</a>
+                                            </div>
+                                        
+                                            <div class="form-group" id="referral-code-group" style="display: none;">
+                                                <label for="referralCode">Enter the referral code</label>
+                                                <input type="text" class="form-control" name="referralCode" id="referralCode">
+                                              </div>
                                             <div class="col-md-12 form-group">
                                                 <button type="submit" class="primary-btn mt-15">Register</button>
                                             </div>
@@ -68,7 +77,21 @@
         </section>
     </main>
 
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const referralToggle = document.getElementById('referral-toggle');
+          const referralCodeGroup = document.getElementById('referral-code-group');
+    
+    
+          referralToggle.addEventListener('click', function () {
+            if (referralCodeGroup.style.display === 'none') {
+              referralCodeGroup.style.display = 'block';
+            } else {
+              referralCodeGroup.style.display = 'none';
+            }
+          });
+        });
+      </script>
     <script>
         document.getElementById('form').addEventListener('submit', function (event) {
             const username = document.getElementById("name").value;

@@ -17,8 +17,8 @@ const orderSchema = new mongoose.Schema({
     ref: 'Address',
   },
   orderID: {
-    type:String,
-    default:generateRandomNumberWithPrefix(),
+    type: String,
+    default: generateRandomNumberWithPrefix,
   },
   orderDate: {
     type: Date,

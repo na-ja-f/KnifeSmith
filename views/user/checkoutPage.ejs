@@ -132,20 +132,30 @@
                         <div class="mb-25">
                             <h4>Select an Address</h4>
                         </div>
-                        <div class="form-group" style="margin: 30px;">
-                            <label for="addressDropdown">Choose an Address:</label>
-                            <select class="form-control" id="addressDropdown" name="address" required>
-                                <option value="" disabled selected>Select an Address</option>
-                                <% for (let i=0; i < addresses.length; i++) { %>
-                                    <option value="<%= addresses[i]._id %>">
-                                        <%= addresses[i].name %> - <%= addresses[i].street %>, <%= addresses[i].city %>,
-                                                    <%= addresses[i].state %>
-                                                        <%= addresses[i].pinCode %>
-                                    </option>
-                                    <% } %>
-                            </select>
-                        </div>
+                        <% if(addresses.length > 0){ %>
+                        <% for (let i=0; i < addresses.length; i++) { %>
+                                
+                                    <div class="mb-10" style="border: 1px solid rgb(125, 115, 115);padding: 10px;">
+                                        <input type="radio" class="form-check-input" required name="address"
+                                            id="<%= addresses[i].name %>"
+                                            value="<%= addresses[i]._id %>">
+                                        <label for="<%= addresses[i].name %>">
+                                            <span></span>
+                                            <h6><%- addresses[i].type.charAt(0).toUpperCase() +
+                                                    addresses[i].type.slice(1) %> Address<br></h6>
+                                        </label>
+                                        <div class="caption">
+                                            <p class="card-text">
+                                                <%= addresses[i].name %>, <%= addresses[i].houseName %>, <%= addresses[i].city %>, <%= addresses[i].pincode %>, <%= addresses[i].state %>, <%= addresses[i].phone %>
+                                            </p>
+                                        </div>
+                                    </div>
 
+                                
+                            <% } %>
+                            <% } else{ %>
+                                <span style="color: red;font-size: larger;">Add atleast one address</span>
+                                <% } %>
 
                     </div>
 
@@ -362,8 +372,7 @@
             });
 
             function placeOrder(paymentMethod, couponCode) {
-                const addressDropdown = document.getElementById('addressDropdown');
-                const selectedAddress = addressDropdown.value;
+                const selectedAddress = document.querySelector('input[name="address"]:checked');
 
                 if (!selectedAddress) {
                     Swal.fire({
@@ -374,7 +383,8 @@
                     return;
                 }
 
-                const address = selectedAddress;
+                const address = selectedAddress.value;
+                console.log(selectedAddress)
 
                 const requestData = {
                     address: address,
@@ -421,8 +431,8 @@
             //razorpay button
 
             function placeOnline(paymentMethod, couponCode) {
-                const addressDropdown = document.getElementById('addressDropdown');
-                const selectedAddress = addressDropdown.value;
+                const selectedAddress = document.querySelector('input[name="address"]:checked');
+
 
                 if (!selectedAddress) {
                     Swal.fire({
@@ -432,7 +442,7 @@
                     }); return;
                 }
 
-                const address = selectedAddress;
+                const address = selectedAddress.value;
                 console.log(address)
 
                 const requestData = {
@@ -463,7 +473,7 @@
 
                             var options = {
                                 key: "rzp_test_lalA2gdDUC1WmY",
-                                amount: amount * 100 *100,
+                                amount: amount * 100,
                                 currency: "INR",
                                 name: "KnifeSmith",
                                 description: "Test Transaction",

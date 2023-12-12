@@ -5,13 +5,13 @@ const bannerSchema = new mongoose.Schema({
   subtitle: String,
   image: String,
   description: String,
-  isListed : {
-    type : Boolean,
-    default : true
-}
-  
+  isListed: {
+    type: Boolean,
+    default: true
+  }
+
 });
 
 
 
-module.exports = mongoose.model('Banner', bannerSchema); ;
+module.exports = mongoose.model('Banner', bannerSchema);;

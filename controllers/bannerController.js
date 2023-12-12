@@ -103,7 +103,7 @@ const bannerEdit = async (req, res) => {
 const blockBanner = async (req, res) => {
     try {
         const id = req.query.bannerId;
-        const bannerData = await Banner.findById({ _id: id });
+        const bannerData = await Banner.findById(id);
 
         if (bannerData.isListed === false) {
             bannerData.isListed = true;

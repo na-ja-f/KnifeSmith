@@ -233,13 +233,14 @@ const offerBlock = async (req, res) => {
                 offer.discountedCategory
             );
             const discountedProductData = await Product.find({
-                category: discountedCategory.name,
+                category: discountedCategory.category,
             });
+
             if (discountedCategory) {
                 discountedCategory.discountStatus = offer.isActive;
                 await discountedCategory.save();
                 const discountedProducts = await Product.updateMany(
-                    { category: discountedCategory.name },
+                    { category: discountedCategory.category },
                     { $set: { discountStatus: offer.isActive } }
                 );
             }

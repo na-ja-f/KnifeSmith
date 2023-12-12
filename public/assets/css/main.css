@@ -5354,7 +5354,7 @@ h6.post-title {
 }
 
 .search-style-1 form {
-  width: 370px;
+  width: 200px;
   position: relative;
 }
 
@@ -5364,8 +5364,8 @@ h6.post-title {
   color: #1a1a1a;
   border-radius: 26px;
   padding: 3px 50px 3px 20px;
-  border: 1px solid #f5f5f5;
-  background-color: #f5f5f5;
+  border: 1px solid #ffffff;
+  background-color: #d4cda9;
   -webkit-transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
 }

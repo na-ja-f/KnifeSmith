@@ -45,10 +45,67 @@
                                 <div class="tab-content dashboard-content">
                                     <div class="tab-pane fade active show" id="dashboard" role="tabpanel"
                                         aria-labelledby="dashboard-tab">
-                                        <h1>
-                                            <%=userData[0].name %>
-                                        </h1>
-                                        <p> welcome to the dashboard </p>
+                                        <p>Hello, <strong>
+                                                <%=userData[0].name%>
+                                            </strong>! Welcome back</p>
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <article class="box mb-3 bg-light p-4 text-center">
+                                                    <i style="font-size: 40px;"
+                                                        class="fa-solid fa-cart-shopping mt-3 text-primary"></i>
+                                                    <h6 class="mt-2">Orders</h6>
+                                                    <h4>
+                                                        <%= totalOrders %>
+                                                    </h4>
+                                                    <small class="text-muted " style="width:70%">Total Number of Orders
+                                                    </small>
+                                                </article>
+                                            </div> <!-- col.// -->
+                                            <div class="col-md">
+                                                <article class="box mb-3 bg-light p-4 text-center">
+                                                    <i style="font-size: 40px;"
+                                                        class="fa-solid fa-gift  mt-3  text-primary"></i>
+                                                    <h6 class="mt-2">Products</h6>
+                                                    <h4>
+                                                        <%= totalUniqueProducts %>
+                                                    </h4>
+
+                                                    <small class="text-muted" style="width:70%">Total number of ordered
+                                                        products.</small>
+                                                </article>
+                                            </div> <!-- col.// -->
+                                            <div class="col-md">
+                                                <article class="box mb-3 bg-light p-4 text-center">
+                                                    <i style="font-size: 40px;"
+                                                        class="fa-solid fa-money-bill  mt-3  text-primary"></i>
+                                                    <h6 class="mt-2">Total spent</h6>
+                                                    <h4>
+                                                        <%= totalSpending %>
+                                                    </h4>
+                                                    <small class="text-muted" style="width:70%">Your Total Spendings
+                                                    </small>
+                                                </article>
+                                            </div> <!-- col.// -->
+                                        </div>
+                                        <hr>
+                                        <div class="div">
+                                            <div class="box mb-3 bg-light p-4">
+                                                <div class="card-body">
+                                                    <h3 class="card-title">Referral code</h3><!-- End .card-title -->
+                                                    <br>
+
+                                                    <p><strong id="referralCode">
+                                                            <%=userData[0].referralCode %>
+                                                        </strong></p>
+
+                                                </div>
+                                                <a href="#" id="copyCode">Copy the code</a>
+                                                <p>when a user register with your referral code the user will get a 50rs and you will get 100rs</p>
+
+
+                                            </div>
+                                        </div>
+
                                     </div>
                                     <div class="tab-pane fade" id="account-detail" role="tabpanel"
                                         aria-labelledby="account-detail-tab">
@@ -245,6 +302,37 @@
                 </div>
         </section>
     </main>
+
+    <script>
+    document.getElementById('copyCode').addEventListener('click', function() {
+        // Get the referral code element
+        var referralCodeElement = document.getElementById('referralCode');
+
+        // Create a temporary textarea to hold the text to be copied
+        var tempTextarea = document.createElement('textarea');
+        tempTextarea.value = referralCodeElement.innerText;
+
+        // Append the textarea to the document
+        document.body.appendChild(tempTextarea);
+
+        // Select and copy the text
+        tempTextarea.select();
+        document.execCommand('copy');
+
+        // Remove the temporary textarea
+        document.body.removeChild(tempTextarea);
+
+        // Show SweetAlert
+        Swal.fire({
+            icon: 'success',
+            title: 'Copied!',
+            text: 'Referral code has been copied to clipboard.',
+            timer: 2000, // Set the duration of the alert (in milliseconds)
+            timerProgressBar: true,
+            showConfirmButton: false
+        });
+    });
+</script>
 
     <script>
         function confirmDelete(userId) {

@@ -275,7 +275,7 @@ const razorpayOrder = async (req, res) => {
         await orderData.save();
 
         const options = {
-            amount: totalAmount,
+            amount: totalAmount * 100,
             currency: "INR",
             receipt: orderData._id,
         };

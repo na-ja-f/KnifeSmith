@@ -44,7 +44,8 @@
                                             </div>
                                             <div class="product-action-1">
                                                 <a aria-label="Add To Wishlist" class="action-btn small hover-up"
-                                                    href="/addTowishlist?id=<%= productData[i]._id %>" tabindex="0"><i class="fi-rs-heart"></i>
+                                                    href="/addTowishlist?id=<%= productData[i]._id %>" tabindex="0"><i
+                                                        class="fi-rs-heart"></i>
                                                 </a>
                                             </div>
                                         </div>
@@ -58,12 +59,20 @@
                                                     <%= productData[i].name %>
                                                 </a></h2>
                                             <div class="product-price">
-                                                <span>
-                                                    <%= productData[i].discountPrice %>
-                                                </span>
-                                                <span class="old-price">
-                                                    <%= productData[i].price %>
-                                                </span>
+                                                <% if ( productData[i].discountPrice !==productData[i].price && new
+                                                    Date() <=new Date(productData[i].discountEnd) && new Date()>= new
+                                                    Date(productData[i].discountStart) &&
+                                                    productData[i].discountStatus==true)
+                                                    { %>
+                                                    <span>
+                                                        &#8377 <%= productData[i].discountPrice %>
+                                                    </span>
+
+                                                    <span class="old-price">&#8377 <%= productData[i].price %></span>
+                                                    <% } else { %>
+                                                        &#8377 <%= productData[i].price %>
+                                                            <% } %>
+
                                             </div>
                                         </div>
                                     </div>
@@ -104,7 +113,7 @@
                                             <% for (let i=0; i < categoryData.length; i++) { %>
                                                 <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                     <input class="form-check-input" name="category" id="category"
-                                                        value="<%= categoryData[i].category %>" type="checkbox">
+                                                        value="<%= categoryData[i].category %>" type="checkbox"  <% if (selectedFilters.category.includes(categoryData[i].category)) { %>checked<% } %> >
                                                     <span class="form-check-label">
                                                         <%= categoryData[i].category %>
                                                     </span>
@@ -122,32 +131,32 @@
                                         <div class="mb-4">
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="color" id="color" value="Black"
-                                                    type="checkbox">
+                                                    type="checkbox" <% if (selectedFilters.color.includes("Black")) { %>checked<% } %> >
                                                 <span class="form-check-label"> Black </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="color" id="color" value="Sand"
-                                                    type="checkbox">
+                                                    type="checkbox" <% if (selectedFilters.color.includes("Sand")) { %>checked<% } %> >
                                                 <span class="form-check-label"> Sand </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="color" id="color" value="Orange"
-                                                    type="checkbox">
+                                                    type="checkbox" <% if (selectedFilters.color.includes("Orange")) { %>checked<% } %> >
                                                 <span class="form-check-label"> Orange </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="color" id="color" value="Olive"
-                                                    type="checkbox">
+                                                    type="checkbox" <% if (selectedFilters.color.includes("Olive")) { %>checked<% } %> >
                                                 <span class="form-check-label"> Olive </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="color" id="color" value="White"
-                                                    type="checkbox">
+                                                    type="checkbox" <% if (selectedFilters.color.includes("White")) { %>checked<% } %> >
                                                 <span class="form-check-label"> White </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="color" id="color" value="Blue"
-                                                    type="checkbox">
+                                                    type="checkbox" <% if (selectedFilters.color.includes("Blue")) { %>checked<% } %> >
                                                 <span class="form-check-label"> Blue </span>
                                             </label>
                                         </div>
@@ -163,23 +172,23 @@
                                         <div class="mb-4">
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="mechanism" id="mechanism"
-                                                    value="manual" type="checkbox">
+                                                    value="manual" type="checkbox" <% if (selectedFilters.mechanism.includes("manual")) { %>checked<% } %> >
                                                 <span class="form-check-label"> manual </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="mechanism" id="mechanism"
-                                                    value="assisted" type="checkbox">
+                                                    value="assisted" type="checkbox" <% if (selectedFilters.mechanism.includes("assisted")) { %>checked<% } %> >
                                                 <span class="form-check-label"> assisted </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="mechanism" id="mechanism"
-                                                    value="automatic" type="checkbox">
+                                                    value="automatic" type="checkbox" <% if (selectedFilters.mechanism.includes("automatic")) { %>checked<% } %> >
                                                 <span class="form-check-label"> automatic </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="mechanism" id="mechanism"
                                                     value="fixed" type="checkbox">
-                                                <span class="form-check-label"> fixed </span>
+                                                <span class="form-check-label" <% if (selectedFilters.mechanism.includes("fixed")) { %>checked<% } %> > fixed </span>
                                             </label>
                                         </div>
                                     </div> <!-- col.// -->
@@ -194,27 +203,27 @@
                                         <div class="mb-4">
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="style" id="style"
-                                                    value="clip-point" type="checkbox">
+                                                    value="clip-point" type="checkbox" <% if (selectedFilters.style.includes("clip-point")) { %>checked<% } %> >
                                                 <span class="form-check-label"> clip-point </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="style" id="style"
-                                                    value="trailing-point" type="checkbox">
+                                                    value="trailing-point" type="checkbox" <% if (selectedFilters.style.includes("trailing-point")) { %>checked<% } %> >
                                                 <span class="form-check-label"> trailing-point </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="style" id="style"
-                                                    value="drop point" type="checkbox">
+                                                    value="drop point" type="checkbox" <% if (selectedFilters.style.includes("drop point")) { %>checked<% } %> >
                                                 <span class="form-check-label"> drop point </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="style" id="style"
-                                                    value="spear-point" type="checkbox">
+                                                    value="spear-point" type="checkbox" <% if (selectedFilters.style.includes("spear-point")) { %>checked<% } %> >
                                                 <span class="form-check-label"> spear-point </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="style" id="style"
-                                                    value="straight back" type="checkbox">
+                                                    value="straight back" type="checkbox" <% if (selectedFilters.style.includes("straight back")) { %>checked<% } %> >
                                                 <span class="form-check-label"> straight back </span>
                                             </label>
                                         </div>
@@ -230,22 +239,22 @@
                                         <div class="mb-4">
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="steel" id="steel"
-                                                    value="stainless steel" type="checkbox">
+                                                    value="stainless steel" type="checkbox" <% if (selectedFilters.steel.includes("stainless steel")) { %>checked<% } %> >
                                                 <span class="form-check-label"> stainless steel </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="steel" id="steel"
-                                                    value="premium stainless steel" type="checkbox">
+                                                    value="premium stainless steel" type="checkbox" <% if (selectedFilters.steel.includes("premium stainless steel")) { %>checked<% } %> >
                                                 <span class="form-check-label"> premium stainless steel </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="steel" id="steel"
-                                                    value="super steel" type="checkbox">
+                                                    value="super steel" type="checkbox" <% if (selectedFilters.steel.includes("super steel")) { %>checked<% } %> >
                                                 <span class="form-check-label"> super steel </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="steel" id="steel"
-                                                    value="tool steel" type="checkbox">
+                                                    value="tool steel" type="checkbox" <% if (selectedFilters.steel.includes("tool steel")) { %>checked<% } %> >
                                                 <span class="form-check-label"> tool steel </span>
                                             </label>
                                         </div>
@@ -261,17 +270,17 @@
                                         <div class="mb-4">
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="weight" id="weight" value="light"
-                                                    type="checkbox">
+                                                    type="checkbox" <% if (selectedFilters.weight.includes("light")) { %>checked<% } %> >
                                                 <span class="form-check-label"> light </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="weight" id="weight" value="medium"
-                                                    type="checkbox">
+                                                    type="checkbox" <% if (selectedFilters.weight.includes("medium")) { %>checked<% } %> >
                                                 <span class="form-check-label"> medium </span>
                                             </label>
                                             <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                 <input class="form-check-input" name="weight" id="weight" value="heavy"
-                                                    type="checkbox">
+                                                    type="checkbox" <% if (selectedFilters.weight.includes("heavy")) { %>checked<% } %> >
                                                 <span class="form-check-label"> heavy </span>
                                             </label>
                                         </div>
