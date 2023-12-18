@@ -74,7 +74,7 @@
                         
                                         <% transactions.forEach((transaction) => { %>
                                             <tr style="height: 80px;">                    
-                                              <td><%= transaction._id %></td>
+                                              <td><%= transaction.transactionId %></td>
                                               <td><%= transaction.description %></td>
                                               <td>  <% if (transaction.type == 'debit') { %><span style="color: red;">
                                                 <%= transaction.type %></span>

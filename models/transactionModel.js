@@ -5,6 +5,10 @@ const transactionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
   },
+  transactionId:{
+    type:String,
+    default:generateRandomNumberWithPrefix
+  },
   amount: Number,
   type: String,
   paymentMethod: String,
@@ -15,5 +19,12 @@ const transactionSchema = new mongoose.Schema({
   },
   description: String
 });
+
+function generateRandomNumberWithPrefix() {
+  let prefix = "TR"
+  const randomNumber = Math.floor(Math.random() * 9000000000) + 1000000000;
+  const result = `${prefix}${randomNumber}`;
+  return result;
+}
 
 module.exports = mongoose.model('Transaction', transactionSchema);

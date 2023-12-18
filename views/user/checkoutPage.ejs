@@ -568,8 +568,8 @@
 
 
         function placeOrderWallet(paymentMethod, couponCode) {
-            const addressDropdown = document.getElementById('addressDropdown');
-            const selectedAddress = addressDropdown.value;
+            const selectedAddress = document.querySelector('input[name="address"]:checked');
+
 
 
             if (!selectedAddress) {
@@ -581,7 +581,7 @@
                 return;
             }
 
-            const address = selectedAddress;
+            const address = selectedAddress.value;
 
             const requestData = {
                 address: address,
