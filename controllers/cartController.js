@@ -86,7 +86,7 @@ const insertToCart = async (req, res) => {
 
         req.session.cartLength = (existingCart || newCart).items.length;
 
-        res.redirect(`/productPage?id=${productId}`)
+        res.redirect('/cartPage')
     } catch (error) {
         console.log(error)
     }

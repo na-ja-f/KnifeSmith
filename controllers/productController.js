@@ -57,24 +57,9 @@ const productList = async (req, res) => {
 
         let filterCriteria = {};
 
-        const searchQuery = req.query.search;
-        if (searchQuery) {
-            filterCriteria.name = { $regex: new RegExp(searchQuery, "i") };
-        }
-
         // ? for category part in home page
         if (req.query.category) {
-            const Category = req.query.category;
-            const totalProducts = await product.countDocuments({ category: Category });
-            const productData = await product
-                .find({ category: Category })
-                .skip((currentPage - 1) * itemsPerPage)
-                .limit(itemsPerPage);
-
-            res.render('productList', {
-                productData, categoryData, currentPage, totalProducts,
-                totalPages: Math.ceil(totalProducts / itemsPerPage),
-            });
+            filterCriteria.category = req.query.category
         }
 
         // ? checking what are the filters 
@@ -105,6 +90,11 @@ const productList = async (req, res) => {
             filterCriteria.weight = { $in: req.body.weight };
         }
 
+        const searchQuery = req.query.search;
+        if (searchQuery) {
+            filterCriteria.name = { $regex: new RegExp(searchQuery, "i") };
+        }
+
 
 
         const totalProducts = await product.countDocuments(filterCriteria);
@@ -112,11 +102,11 @@ const productList = async (req, res) => {
         if (req.query.sort) {
             num = req.query.sort
         }
-        const productData = await product.find(filterCriteria).sort({ price: num }).skip((currentPage - 1) * itemsPerPage).limit(itemsPerPage);
+        const productData = await product.find(filterCriteria).populate('category').sort({ price: num }).skip((currentPage - 1) * itemsPerPage).limit(itemsPerPage);
 
         // Save selected filter values to be passed to the template
         const selectedFilters = {
-            category: req.body.category || [],
+            category: req.body.category || req.query.category || [],
             color: req.body.color || [],
             mechanism: req.body.mechanism || [],
             style: req.body.style || [],
@@ -142,11 +132,11 @@ const clearFilters = async (req, res) => {
 };
 
 // ! product page 
-const productPage = async (req, res) => {
+const productPage = async (req, res) => { 
     try {
         const id = req.query.id;
-        const relatedProducts = await product.find({ _id: { $ne: id } }).limit(4)
-        const productData = await product.findOne({ _id: id })
+        const relatedProducts = await product.find({ _id: { $ne: id } }).populate('category').limit(4)
+        const productData = await product.findOne({ _id: id }).populate('category')
         res.render('productPage', { productData, relatedProducts })
     } catch (error) {
         console.log(error.message);
@@ -168,11 +158,11 @@ const adminProductList = async (req, res) => {
 
         if (req.query.view) {
             view = req.query.view;
-            const productData = await product.find({ isListed: view }).skip((currentPage - 1) * itemsPerPage).limit(itemsPerPage)
+            const productData = await product.find({ isListed: view }).populate('category').skip((currentPage - 1) * itemsPerPage).limit(itemsPerPage)
             res.render('adminProductList', { productData, currentPage, totalPages: Math.ceil(totalProducts / itemsPerPage) })
         }
 
-        const productData = await product.find({}).skip((currentPage - 1) * itemsPerPage).limit(itemsPerPage)
+        const productData = await product.find({}).populate('category').skip((currentPage - 1) * itemsPerPage).limit(itemsPerPage)
         res.render('adminProductList', { productData, currentPage, totalPages: Math.ceil(totalProducts / itemsPerPage) })
     } catch (error) {
         console.log(error.message)

@@ -17,14 +17,14 @@ const addToWishlist = async (req, res) => {
             const existingWishlistItem = userWishlist.items.find((item) => item.product.toString() === productId);
 
             if (existingWishlistItem) {
-                res.redirect(`/productPage?id=${productId}`)
+                res.redirect('/wishlist')
             } else {
                 userWishlist.items.push({ product: productId });
             }
         }
 
         await userWishlist.save();
-        res.redirect(`/productPage?id=${productId}`)
+        res.redirect(`/wishlist`)
 
     } catch (error) {
         console.error(error.message);

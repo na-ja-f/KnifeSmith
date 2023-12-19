@@ -62,6 +62,8 @@ router.get('/couponPage', auth.isLogin, couponController.couponPage)
 router.get('/addTowishlist', auth.isLogin, wishlistController.addToWishlist)
 router.get('/wishlist', auth.isLogin, wishlistController.loadWishlist)
 router.get("/removeFromWishlist", wishlistController.removeFromWishlist);
+// other
+router.get('/contact',userController.contact)
 
 
 

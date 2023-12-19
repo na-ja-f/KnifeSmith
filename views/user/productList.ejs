@@ -42,17 +42,11 @@
                                                         alt="">
                                                 </a>
                                             </div>
-                                            <div class="product-action-1">
-                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
-                                                    href="/addTowishlist?id=<%= productData[i]._id %>" tabindex="0"><i
-                                                        class="fi-rs-heart"></i>
-                                                </a>
-                                            </div>
                                         </div>
                                         <div class="product-content-wrap">
                                             <div class="product-category">
                                                 <a href="#">
-                                                    <%= productData[i].category %>
+                                                    <%= productData[i].category.category %>
                                                 </a>
                                             </div>
                                             <h2><a href="/productPage?id=<%= productData[i]._id %>">
@@ -113,7 +107,7 @@
                                             <% for (let i=0; i < categoryData.length; i++) { %>
                                                 <label class="mb-2 form-check form-check-inline" style="width: 45%;">
                                                     <input class="form-check-input" name="category" id="category"
-                                                        value="<%= categoryData[i].category %>" type="checkbox"  <% if (selectedFilters.category.includes(categoryData[i].category)) { %>checked<% } %> >
+                                                        value="<%= categoryData[i]._id %>" type="checkbox"  <% if (selectedFilters.category.includes(categoryData[i]._id)) { %>checked<% } %> >
                                                     <span class="form-check-label">
                                                         <%= categoryData[i].category %>
                                                     </span>

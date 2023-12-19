@@ -39,10 +39,10 @@
                             for (let i = 0; i < catData.length; i++) { %>
                                 <div class="card-1">
                                     <figure class=" img-hover-scale overflow-hidden">
-                                        <a href="/productList?category=<%= catData[i].category %>"><img src="categoryImages/<%= catData[i].image %>"
+                                        <a href="/productList?category=<%= catData[i]._id %>"><img src="categoryImages/<%= catData[i].image %>"
                                                 alt=""></a>
                                     </figure>
-                                    <h5><a href="/productList?category=<%= catData[i].category %>">
+                                    <h5><a href="/productList?category=<%= catData[i]._id %>">
                                             <%= catData[i].category %>
                                         </a></h5>
                                 </div>

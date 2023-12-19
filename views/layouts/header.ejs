@@ -67,12 +67,6 @@
                                         <a href="/productList">Shop</a>
                                     </li>
                                     <li>
-                                        <a href="blog-category-grid.html">Blog</a>
-                                    </li>
-                                    <li>
-                                        <a href="page-contact.html">Contact</a>
-                                    </li>
-                                    <li>
                                         <% if(session.userId){ %>
                                                 <a href="/profile">profile</a>
                                                 <% } %>
@@ -81,8 +75,8 @@
                             </nav>
                         </div>
                     </div>
-                    <div class="col-lg-2">
-                        <div class="header-action-right">
+                    <div class="header-action-right">
+                        <div class="header-action-2">
                             <div class="search-style-1">
                                 <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
                                 <form action="/productList" method="post">
@@ -95,24 +89,24 @@
                                 </form>
                             </div>
                             <% if(session.userId){ %>
-                            <div class="header-action-2">
-                                <div class="header-action-icon-2">
-                                    <a href="/wishlist">
-                                        <img class="svgInject" alt="Evara" src="assets/imgs/theme/icons/icon-heart.svg">
-                                    </a>
-                                </div>
-                                <div class="header-action-icon-2">
-                                    <a class="mini-cart-icon" href="/cartPage">
-                                        <img alt="Evara" src="assets/imgs/theme/icons/icon-cart.svg">
-                                    </a>
-                                </div>
+                            <div class="header-action-icon-2">
+                                <a href="/wishlist">
+                                    <img class="svgInject" alt="Evara" src="assets/imgs/theme/icons/icon-heart.svg">
+                                </a>
+                            </div>
+                            <div class="header-action-icon-2">
+                                <a class="mini-cart-icon" href="/cartPage">
+                                    <img alt="Evara" src="assets/imgs/theme/icons/icon-cart.svg">
+                                </a>
                             </div>
                             <% }else{ %>
-                            <a href="/login" style="font-size:larger;margin-right: 10px;">login</a>
-                            |
-                            <a href="/register" style="font-size:larger; margin-left: 10px;"> Signup</a>
-                            <% } %>
+                                <a href="/login" style="font-size:larger;margin-right: 10px;">login</a>
+                                |
+                                <a href="/register" style="font-size:larger; margin-left: 10px;"> Signup</a>
+                                <% } %>
                         </div>
+                        
+                       
                     </div>
                 </div>
             </div>

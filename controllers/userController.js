@@ -464,6 +464,15 @@ const loadWallet = async (req, res) => {
   }
 };
 
+// ! contact
+const contact = async(req,res)=>{
+  try {
+    res.render('contact')
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 
 module.exports = {
   homepage,
@@ -481,5 +490,6 @@ module.exports = {
   resetPage,
   forgetPassword,
   newPassword,
-  loadWallet
+  loadWallet,
+  contact,
 };
