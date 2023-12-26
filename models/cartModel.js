@@ -20,10 +20,6 @@ const cartSchema = new mongoose.Schema({
         required: true
     },
     items: [cartItemSchema],
-    total: {
-        type: Number,
-        default: 0
-    },
     date: {
         type: Date,
         default: Date.now

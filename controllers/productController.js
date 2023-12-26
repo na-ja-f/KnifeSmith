@@ -63,22 +63,22 @@ const productList = async (req, res) => {
         }
 
         // filter search
-        if(req.query.searchcategory){
+        if (req.query.searchcategory) {
             filterCriteria.category = { $in: req.query.searchcategory };
         }
-        if(req.query.searchcolor){
+        if (req.query.searchcolor) {
             filterCriteria.productColor = { $in: req.query.searchcolor };
         }
-        if(req.query.searchmechanism){
+        if (req.query.searchmechanism) {
             filterCriteria.mechanism = { $in: req.query.searchmechanism };
         }
-        if(req.query.searchstyle){
+        if (req.query.searchstyle) {
             filterCriteria.bladeStyle = { $in: req.query.searchstyle };
         }
-        if(req.query.searchsteel){
+        if (req.query.searchsteel) {
             filterCriteria.bladeSteel = { $in: req.query.searchsteel };
         }
-        if(req.query.searchweight){
+        if (req.query.searchweight) {
             filterCriteria.weight = { $in: req.query.searchweight };
         }
         // filter search end
@@ -123,12 +123,12 @@ const productList = async (req, res) => {
 
         // Save selected filter values to be passed to the template
         const selectedFilters = {
-            category: req.body.category?req.body.category:req.query.searchCategory || [],
-            color: req.body.color?req.body.color:req.query.searchcolor || [],
-            mechanism: req.body.mechanism?req.body.mechanism:req.query.searchmechanism || [],
-            style: req.body.style?req.body.style:req.query.searchstyle || [],
-            steel: req.body.steel?req.body.steel:req.query.searchsteel || [],
-            weight: req.body.weight?req.body.weight:req.query.searchweight || [],
+            category: req.body.category ? req.body.category : req.query.searchCategory || [],
+            color: req.body.color ? req.body.color : req.query.searchcolor || [],
+            mechanism: req.body.mechanism ? req.body.mechanism : req.query.searchmechanism || [],
+            style: req.body.style ? req.body.style : req.query.searchstyle || [],
+            steel: req.body.steel ? req.body.steel : req.query.searchsteel || [],
+            weight: req.body.weight ? req.body.weight : req.query.searchweight || [],
         };
 
         res.render('productList', {
@@ -149,7 +149,7 @@ const clearFilters = async (req, res) => {
 };
 
 // ! product page 
-const productPage = async (req, res) => { 
+const productPage = async (req, res) => {
     try {
         const id = req.query.id;
         const relatedProducts = await product.find({ _id: { $ne: id } }).populate('category').limit(4)

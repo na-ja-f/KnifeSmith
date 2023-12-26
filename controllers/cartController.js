@@ -60,10 +60,6 @@ const insertToCart = async (req, res) => {
                 });
             }
 
-            existingCart.total = existingCart.items.reduce(
-                (total, item) => total + (item.quantity || 0),
-                0
-            );
 
             await existingCart.save();
 
@@ -71,7 +67,6 @@ const insertToCart = async (req, res) => {
             newCart = new cart({
                 user: userId,
                 items: [{ product: productId, quantity: parseInt(qty) }],
-                total: parseInt(qty, 10),
             });
 
             await newCart.save();
@@ -129,9 +124,6 @@ const removeCartItem = async (req, res) => {
 
         userCart.items.splice(cartItemIndex, 1);
 
-        userCart.items.reduce(
-            (total, item) => total - (item.quantity || 0),
-            0)
 
         await userCart.save();
         if (userCart.items.length === 0) {

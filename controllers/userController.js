@@ -28,7 +28,7 @@ const homepage = async (req, res) => {
   try {
     const productData = await product.find({}).limit(5)
     const catData = await category.find({});
-    const banData = await Banner.find({isListed:true});
+    const banData = await Banner.find({ isListed: true });
     res.render("home", { session: req.session, catData, productData, banData });
   } catch (error) {
     console.log(error.message);
@@ -379,7 +379,7 @@ const loadWallet = async (req, res) => {
 };
 
 // ! contact
-const contact = async(req,res)=>{
+const contact = async (req, res) => {
   try {
     res.render('contact')
   } catch (error) {
