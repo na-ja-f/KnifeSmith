@@ -16,6 +16,9 @@ const Coupon = require('../models/couponModel')
 // * transaction model 
 const Transaction = require("../models/transactionModel");
 
+// * helpers
+const calculateTotal = require('../helpers/calculateTotal');
+
 const mongoose = require('mongoose')
 
 require("dotenv").config();
@@ -29,35 +32,6 @@ const razorpay = new Razorpay({
     key_secret: RAZORPAY_SECRET_KEY,
 });
 
-//   ?-------------------------------------functions to find subtotals -------------------------------------------
-
-
-const calculateSubtotal = (cart) => {
-    let subtotal = 0;
-    for (const cartItem of cart) {
-        const isDiscounted = cartItem.product.discountStatus &&
-            new Date(cartItem.product.discountStart) <= new Date() &&
-            new Date(cartItem.product.discountEnd) >= new Date();
-
-        const priceToConsider = cartItem.product.discountPrice;
-
-        subtotal += priceToConsider * cartItem.quantity;
-    }
-    return subtotal;
-};
-
-function calculateDiscountedTotal(total, discountPercentage) {
-    if (discountPercentage < 0 || discountPercentage > 100) {
-        throw new Error('Discount percentage must be between 0 and 100.');
-    }
-
-    const discountAmount = (discountPercentage / 100) * total;
-    const discountedTotal = total - discountAmount;
-
-    return discountedTotal;
-};
-
-
 
 // ?==================================================== user side ===============================================
 
@@ -70,7 +44,7 @@ const checkoutPage = async (req, res) => {
 
         const addresses = await address.find({ user: userId }).sort({ createdDate: -1 }).exec();
 
-        const productTotal = calculateSubtotal(orders.items);
+        const productTotal = calculateTotal.calculateSubtotal(orders.items);
 
         res.render('checkoutPage', { orders: orders.items, productTotal, addresses })
     } catch (error) {
@@ -317,7 +291,7 @@ async function applyCoup(couponCode, discountedTotal, userId) {
         return { error: "You have already used this coupon." };
     }
     if (coupon.type === "percentage") {
-        discountedTotal = calculateDiscountedTotal(
+        discountedTotal = calculateTotal.calculateDiscountedTotal(
             discountedTotal,
             coupon.discount
         );
@@ -504,11 +478,11 @@ const applyCoupon = async (req, res) => {
             .exec();
 
         const cartItems = cartData.items || [];
-        const orderTotal = calculateSubtotal(cartItems);
+        const orderTotal = calculateTotal.calculateSubtotal(cartItems);
         let discountedTotal = 0;
 
         if (coupon.type === "percentage") {
-            discountedTotal = calculateDiscountedTotal(orderTotal, coupon.discount);
+            discountedTotal = calculateTotal.calculateDiscountedTotal(orderTotal, coupon.discount);
         } else if (coupon.type === "fixed") {
             discountedTotal = orderTotal - coupon.discount;
         }

@@ -8,6 +8,9 @@ const product = require('../models/productModel')
 // * cart model
 const cart = require('../models/cartModel')
 
+// * helper
+const calculateTotal = require('../helpers/calculateTotal')
+
 // ! load cart page
 const loadCart = async (req, res) => {
     try {
@@ -15,7 +18,7 @@ const loadCart = async (req, res) => {
         const cartData = await cart.findOne({ user: userId }).populate('items.product')
 
         const Cart = cartData ? cartData.items : [];
-        const productTotal = calculateProductTotal(Cart);
+        const productTotal = calculateTotal.calculateProductTotal(Cart);
 
         let outOfStockError = false;
         if (Cart.length > 0) {
@@ -34,16 +37,6 @@ const loadCart = async (req, res) => {
         console.log(error)
     }
 }
-
-// ! product total
-const calculateProductTotal = (cart) => {
-    let productTotals = 0;
-    for (const cartItem of cart) {
-        const total = cartItem.product.discountPrice * cartItem.quantity;
-        productTotals += total
-    }
-    return productTotals;
-};
 
 // ! insert to cart
 const insertToCart = async (req, res) => {

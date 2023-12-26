@@ -6,6 +6,9 @@ const Product = require('../models/productModel')
 // * product model
 const Offer = require('../models/offerModel')
 
+// * helper
+const calculateTotal = require('../helpers/calculateTotal')
+
 // !  load add offer page
 const loadOfferAdd = async (req, res) => {
     try {
@@ -89,7 +92,7 @@ const addOffer = async (req, res) => {
                 { _id: discountedProduct },
                 {
                     $set: {
-                        discountPrice: calculateDiscountPrice(
+                        discountPrice: calculateTotal.calculateDiscountPrice(
                             discountedProductData.price,
                             discountType,
                             discountValue
@@ -132,7 +135,7 @@ const addOffer = async (req, res) => {
                     { _id: product._id },
                     {
                         $set: {
-                            discountPrice: calculateDiscountPrice(
+                            discountPrice: calculateTotal.calculateDiscountPrice(
                                 product.price,
                                 discountType,
                                 discountValue
@@ -152,18 +155,6 @@ const addOffer = async (req, res) => {
         console.error(error.message);
     }
 };
-
-// ? for caluculating the discount price
-function calculateDiscountPrice(originalPrice, discountType, discountValue) {
-    if (discountType === "fixed Amount") {
-        return originalPrice - discountValue;
-    } else if (discountType === "percentage") {
-        const discountAmount = (originalPrice * discountValue) / 100;
-        return originalPrice - discountAmount;
-    } else {
-        throw new Error("Invalid discount type");
-    }
-}
 
 // ! Offer list
 const OfferList = async (req, res) => {
@@ -217,7 +208,7 @@ const offerBlock = async (req, res) => {
                 } else if (offer.discountType === "fixed Amount") {
                     discount = offer.discountValue;
                 }
-                discountedProduct.discountPrice = calculateDiscountPrice(
+                discountedProduct.discountPrice = calculateTotal.calculateDiscountPrice(
                     discountedProduct.price,
                     offer.discountType,
                     offer.discountValue
@@ -254,7 +245,7 @@ const offerBlock = async (req, res) => {
                     } else if (offer.discountType === "fixed Amount") {
                         discount = offer.discountValue;
                     }
-                    product.discountPrice = calculateDiscountPrice(
+                    product.discountPrice = calculateTotal.calculateDiscountPrice(
                         product.price,
                         offer.discountType,
                         offer.discountValue
@@ -384,7 +375,7 @@ const editOffer = async (req, res) => {
                 { _id: discountedProduct },
                 {
                     $set: {
-                        discountPrice: calculateDiscountPrice(
+                        discountPrice: calculateTotal.calculateDiscountPrice(
                             discountedProductData.price,
                             discountType,
                             discountValue
@@ -427,7 +418,7 @@ const editOffer = async (req, res) => {
                     { _id: product._id },
                     {
                         $set: {
-                            discountPrice: calculateDiscountPrice(
+                            discountPrice: calculateTotal.calculateDiscountPrice(
                                 product.price,
                                 discountType,
                                 discountValue

@@ -69,7 +69,7 @@ router.get('/contact',userController.contact)
 
 // ! POST routes
 // user
-router.post('/register', userController.registrationValidation, userController.insertUser)
+router.post('/register', userController.insertUser)
 router.post('/verifyOtp', userController.verifyOtp)
 router.post('/login', userController.verifyLogin)
 router.post('/resetPage', userController.forgetPassword)
