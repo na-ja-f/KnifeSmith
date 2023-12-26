@@ -10,6 +10,22 @@
                                         <%= totalProducts %>
                                     </strong> items for you!</p>
                             </div>
+                            <div class="search-style-1">
+                                <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
+                                <form action="/productList" method="get">
+                                    <div class="header-search-wrapper">
+                                        <input type="hidden" name="searchcategory" value="<%= selectedFilters.category %>">
+                                        <input type="hidden" name="searchcolor" value="<%= selectedFilters.color %>">
+                                        <input type="hidden" name="searchmechanism" value="<%= selectedFilters.mechanism %>">
+                                        <input type="hidden" name="searchstyle" value="<%= selectedFilters.style %>">
+                                        <input type="hidden" name="searchsteel" value="<%= selectedFilters.steel %>">
+                                        <input type="hidden" name="searchweight" value="<%= selectedFilters.weight %>">
+                                        <label for="q" class="sr-only">Search</label>
+                                        <input type="search" class="form-control" name="search" id="search" placeholder="Search in..." required>
+                                        <button type="submit" style="display: none;">Search</button> <!-- Add a submit button -->
+                                    </div><!-- End .header-search-wrapper -->
+                                </form>
+                            </div>
                             <div class="sort-by-product-area">
                                 <div class="sort-by-cover">
                                     <div class="sort-by-product-wrap">

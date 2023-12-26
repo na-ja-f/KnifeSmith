@@ -57,6 +57,32 @@ const productList = async (req, res) => {
 
         let filterCriteria = {};
 
+        const searchQuery = req.query.search;
+        if (searchQuery) {
+            filterCriteria.name = { $regex: new RegExp(searchQuery, "i") };
+        }
+
+        // filter search
+        if(req.query.searchcategory){
+            filterCriteria.category = { $in: req.query.searchcategory };
+        }
+        if(req.query.searchcolor){
+            filterCriteria.productColor = { $in: req.query.searchcolor };
+        }
+        if(req.query.searchmechanism){
+            filterCriteria.mechanism = { $in: req.query.searchmechanism };
+        }
+        if(req.query.searchstyle){
+            filterCriteria.bladeStyle = { $in: req.query.searchstyle };
+        }
+        if(req.query.searchsteel){
+            filterCriteria.bladeSteel = { $in: req.query.searchsteel };
+        }
+        if(req.query.searchweight){
+            filterCriteria.weight = { $in: req.query.searchweight };
+        }
+        // filter search end
+
         // ? for category part in home page
         if (req.query.category) {
             filterCriteria.category = req.query.category
@@ -79,20 +105,11 @@ const productList = async (req, res) => {
         if (req.body.style) {
             filterCriteria.bladeStyle = { $in: req.body.style };
         }
-
-        // Check if steel is selected
         if (req.body.steel) {
             filterCriteria.bladeSteel = { $in: req.body.steel };
         }
-
-        // Check if weight is selected
         if (req.body.weight) {
             filterCriteria.weight = { $in: req.body.weight };
-        }
-
-        const searchQuery = req.query.search;
-        if (searchQuery) {
-            filterCriteria.name = { $regex: new RegExp(searchQuery, "i") };
         }
 
 
@@ -106,12 +123,12 @@ const productList = async (req, res) => {
 
         // Save selected filter values to be passed to the template
         const selectedFilters = {
-            category: req.body.category || req.query.category || [],
-            color: req.body.color || [],
-            mechanism: req.body.mechanism || [],
-            style: req.body.style || [],
-            steel: req.body.steel || [],
-            weight: req.body.weight || [],
+            category: req.body.category?req.body.category:req.query.searchCategory || [],
+            color: req.body.color?req.body.color:req.query.searchcolor || [],
+            mechanism: req.body.mechanism?req.body.mechanism:req.query.searchmechanism || [],
+            style: req.body.style?req.body.style:req.query.searchstyle || [],
+            steel: req.body.steel?req.body.steel:req.query.searchsteel || [],
+            weight: req.body.weight?req.body.weight:req.query.searchweight || [],
         };
 
         res.render('productList', {
